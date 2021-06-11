@@ -1,0 +1,21 @@
+{
+  "name": "cs-programming-knowledge",
+  "version": "1.0.0",
+  "description": "|     算法&nbsp;     |        操作系统         |    网络&nbsp;    |      面向对象      | &nbsp;数据库&nbsp;&nbsp; | &nbsp;Java&nbsp;&nbsp; |      系统设计       | &nbsp;&nbsp;工具&nbsp;&nbsp; |         编码实践          | &nbsp;&nbsp;后记&nbsp;&nbsp; |\r | :----------------: | :---------------------: | :--------------: | :----------------: | :----------------------: | :--------------------: | :-----------------: | :--------------------------: | :-----------------------: | :--------------------------: |\r | [✏️](#pencil2-算法) | [💻](#computer-操作系统) | [☁️](#cloud-网络) | [🎨](#art-面向对象) | [💾](#floppy_disk-数据库) |   [☕️](#coffee-java)    | [💡](#bulb-系统设计) |      [🔧](#wrench-工具)       | [🍉](#watermelon-编码实践) |       [📝](#memo-后记)        |",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/idolcoder/cs-programming-knowledge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "docsify-darklight-theme": "^3.0.6"
+  }
+}
