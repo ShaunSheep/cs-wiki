@@ -53,7 +53,25 @@
 
 <body>
   <div id="app"></div>
-  <div id="container" style="width:65%;margin:auto"></div>
+  <!-- <div id="container" style="width:65%;margin:auto"></div> -->
+  <!-- 来必力City版安装代码 -->
+  <div id="lv-container" data-id="city" data-uid="MTAyMC81MzU1My8zMDAyNw==">
+    <script type="text/javascript">
+      (function (d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+
+        if (typeof LivereTower === 'function') { return; }
+
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+  </div>
+  <!-- City版安装代码已完成 -->
   <script src="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <script>
     var num = 0;
@@ -143,43 +161,44 @@
   <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
   <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
   <script>
-    const myTheme = {
-      render(state, instance) {
-        const container = document.createElement('div')
-        container.lang = "en-US"
-        container.className = 'gitment-container gitment-root-container'
-        container.appendChild(instance.renderHeader(state, instance))
-        container.appendChild(instance.renderEditor(state, instance))
-        container.appendChild(instance.renderComments(state, instance))
-        container.appendChild(instance.renderFooter(state, instance))
-        return container
-      },
-    }
-    var gitment = new Gitment({
-      id: document.location.href, // 可选。默认为 location.href
-      owner: 'ShaunSheep',
-      theme: myTheme,
-      repo: 'cs-wiki',
-      oauth: {
-        client_id: '11b9ad6031fda9bb98b6',
-        client_secret: '17a69fe9a914a35efcf6376c8a7730f738edf429',
-      },
-    })
-    gitment.render('container')
+    // const myTheme = {
+    //   render(state, instance) {
+    //     const container = document.createElement('div')
+    //     container.lang = "en-US"
+    //     container.className = 'gitment-container gitment-root-container'
+    //     container.appendChild(instance.renderHeader(state, instance))
+    //     container.appendChild(instance.renderEditor(state, instance))
+    //     container.appendChild(instance.renderComments(state, instance))
+    //     container.appendChild(instance.renderFooter(state, instance))
+    //     return container
+    //   },
+    // }
+    // var gitment = new Gitment({
+    //   id: document.location.href, // 可选。默认为 location.href
+    //   owner: 'ShaunSheep',
+    //   theme: myTheme,
+    //   repo: 'cs-wiki',
+    //   oauth: {
+    //     client_id: '11b9ad6031fda9bb98b6',
+    //     client_secret: '17a69fe9a914a35efcf6376c8a7730f738edf429',
+    //   },
+    // })
+    // gitment.render('container')
 
-    let cmtBtns = document.getElementsByClassName('gitment-comments-init-btn');
-    let isClicked = false;
+    // let cmtBtns = document.getElementsByClassName('gitment-comments-init-btn');
+    // let isClicked = false;
 
-    let timer = setInterval(() => {
-      Array.prototype.forEach.call(cmtBtns, item => {
-        item.click();
-        isClicked = true;
-        if (isClicked) {
-          clearInterval(timer);
-          console.log('Clear timer.')
-        }
-      })
-    }, 1000)
+    // let timer = setInterval(() => {
+    //   Array.prototype.forEach.call(cmtBtns, item => {
+    //     item.click();
+    //     isClicked = true;
+    //     if (isClicked) {
+    //       clearInterval(timer);
+    //       console.log('Clear timer.')
+    //     }
+    //   })
+    // }, 1000)
+
   </script>
 </body>
 
