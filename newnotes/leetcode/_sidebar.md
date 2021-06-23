@@ -129,9 +129,9 @@
   - [5单词搜索 II](newnotes/leetcode/单词搜索II.md)
   - [子集 II](newnotes/leetcode/子集II.md)
   - [子集](newnotes/leetcode/子集.md)
-  - [全排列](https://www.lintcode.com/problem/15/?_from=collection&fromId=161)
-  - [单词搜索 III](https://www.lintcode.com/problem/1848/?_from=collection&fromId=161)
-  - [单词接龙 II](https://www.lintcode.com/problem/121/?_from=collection&fromId=161)
+  - [全排列](newnotes/leetcode/全排列.m)
+  - [单词搜索 III](newnotes/leetcode/单词搜索III.m)
+  - [单词接龙 II](newnotes/leetcode/单词接龙II.m)
 
 - [第六阶段深度优先搜索第二期](newnotes/leetcode/DFS.md)
   - [1分割字符串](https://www.lintcode.com/problem/680/?_from=collection&fromId=161)
