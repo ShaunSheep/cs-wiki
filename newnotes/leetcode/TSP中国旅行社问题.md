@@ -126,3 +126,102 @@ public class Solution {
 - graph的结构如何理解？
 - cost如何计算，当前层与下一层的cost有怎样的关系？
 -  Math.min(graph[a][b], c)是什么意思？
+
+## 剪枝dfs法代码实现
+```java
+class Result {
+    int minCost;
+    public Result(){
+        this.minCost = 1000000;
+    }
+}
+
+public class Solution {
+    /**
+     * @param n: an integer,denote the number of cities
+     * @param roads: a list of three-tuples,denote the road between cities
+     * @return: return the minimum cost to travel all cities
+     */
+    public int minCost(int n, int[][] roads) {
+        int[][] graph = constructGraph(roads, n);
+        Set<Integer> visited = new HashSet<Integer>();
+        List<Integer> path = new ArrayList<Integer>();
+        Result result = new Result();
+        path.add(1);
+        visited.add(1);
+        
+        dfs(1, n, path, visited, 0, graph, result);
+        
+        return result.minCost;
+    }
+
+    void dfs (int city, 
+              int n, 
+              List<Integer> path, 
+              Set<Integer> visited, 
+              int cost,
+              int[][] graph,
+              Result result) {
+        
+        if (visited.size() == n) {
+            result.minCost = Math.min(result.minCost, cost);
+            return ;
+        }
+        
+        for(int i = 1; i < graph[city].length; i++) {
+            if (visited.contains(i)) {
+                continue;
+            }
+            if (hasBetterPath(graph, path, i)) {
+                continue;
+            }
+            visited.add(i);
+            path.add(i);
+            dfs(i, n, path, visited, cost + graph[city][i], graph, result);
+            visited.remove(i);
+            path.remove(path.size() - 1);
+        }
+    }
+
+    int[][] constructGraph(int[][] roads, int n) {
+        int[][] graph = new int[n + 1][n + 1];
+        for (int i = 0; i < n + 1; i++) {
+            for (int j = 0; j < n + 1; j++) {
+                graph[i][j] = 100000;
+            }
+        }
+        int roadsLength = roads.length;
+        for (int i = 0; i < roadsLength; i++) {
+            int a = roads[i][0], b = roads[i][1], c = roads[i][2];
+            graph[a][b] = Math.min(graph[a][b], c);
+            graph[b][a] = Math.min(graph[b][a], c);
+        }
+
+        return graph;
+    }
+
+    boolean hasBetterPath(int[][] graph, List<Integer> path, int city) {
+        int pathLength = path.size();
+        for (int i = 1; i < pathLength; i++){
+            int path_i_1 = path.get(i - 1);
+            int path_i = path.get(i);
+            int path_last = path.get(pathLength - 1);
+            if (graph[path_i_1][path_i] + graph[path_last][city] >
+                graph[path_i_1][path_last] + graph[path_i][city]) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+}
+
+```
+1. `List<Integer> path`的用途?
+2. `path.remove(path.size() - 1)`的用途？
+3. `hasBetterPath`的用途？
+4. `hasBetterPath`的定义？
+   1. `path_i_1`的用途？
+   2. `path_i`的用途？
+   3. if条件的判断`graph[path_i_1][path_i] + graph[path_last][city]` 的含义？老师手绘了一张图，没看懂，需要多看几遍。
