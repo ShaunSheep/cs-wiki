@@ -7,6 +7,8 @@
 - [ ] [vip-300分钟搞定数据结构与算法](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=3#/detail/pc?id=34)
 - [ ] [微信-数重学数据结构与算法](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=185&sid=20-h5Url-0&buyFrom=2&pageId=1pz4#/content)
 - [ ] [手机-数据结构与算法面试宝典](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=685&sid=20-h5Url-0&buyFrom=2&pageId=1pz4#/)
+- [ ] 成都-算法通关40讲
+- [ ] 西安-数据结构与算法之美
 
 ## 刷题计划
 
