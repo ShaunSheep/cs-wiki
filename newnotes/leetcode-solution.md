@@ -1,4 +1,4 @@
-## leetcode题解
+# leetcode题解
 
 ## 课程计划
 
@@ -10,15 +10,55 @@
 - [ ] 成都-算法通关40讲
 - [ ] 西安-数据结构与算法之美
 
+## 刷题步骤
+
+1. 阅读题目，读题+思考5分钟，回忆已有知识、已有题型，记录下思考的障碍点
+
+2. 能否做出来
+
+   1. 能做点，就写一点，最多写5分钟
+   2. 能完全做出，就全写完，加上debug+用例调试，最多写10分钟
+   3. 完全没思路，记录下思考的障碍点，不会的原因，直接看题解
+
+3. 第一次看题解，找自己容易理解的，有已有知识能看懂的
+
+4. 看着题解抄一遍答案，记住背诵点
+
+5. 背诵5-10分钟
+
+6. 默写一遍，如有问题回到步骤4-5-6重复，直至完全闭卷默写出来
+
+7. 在[Leetcode](https://leetcode-cn.com/problemset/all/)看中文题解，10-15条，评论别人的题解，记录下震惊自己的，觉得优美的题解，给予评论和笔记
+
+8. 就可以看到看英文题解,方法是在中文题解的浏览器上，删除域名的`-cn`部分，，10-15条，同上。如两数之和
+
+   1. 英文链接是`https://leetcode.com/problems/two-sum/?utm_source=LCUS&utm_medium=ip_redirect&utm_campaign=transfer2china`
+
+   2. 中文链接是`https://leetcode-cn.com/problems/two-sum/?utm_source=LCUS&utm_medium=ip_redirect&utm_campaign=transfer2china`
+
+      可以看到差别就是`-cn`
+
+9. 在其他渠道看题解，如[九章题解](https://www.jiuzhang.com/problem)，过程同上
+
+## 刷题注意事项
+
+1. 不要纠结为什么自己想不到，很多算法思想都是得奖的作品，咱们是做题找应用场景的解决方案的，不是发明解法的
+2. 不要读题超过10分钟，5分钟内没思路，其实就可以记录下障碍点，放弃思考了
+3. 代码量少的题，不要纠结为什么理解不了，多做几遍
+4. 每道题目至少5遍
+5. 每道题目至少看30个题解
+6. 每道题目要总结思考流程
+
 ## 刷题计划
 
 - [ ] leetcode
 - [ ] 九章算法
 - [ ] 邓俊辉数据结构2020
+- [ ] 剑指offer
 
 ## Todo
 
-?> 还有104天会员过期，大概有200道题目。计划每天2-3道，周末加餐。
+?> 还有19天会员过期，大概有200道题目。计划每天2-3道，周末加餐。
 
 做题步骤
 
@@ -36,17 +76,27 @@
 
 # 算法预备知识
 
+## 数据结构
+
+[点击看这里](newnotes/leetcode/数据结构.md)
+
+## 算法
+
+[点击看这里](newnotes/leetcode/README.md)
+
 | 名称         | 思想概述 |
 | ------------ | -------- |
+| 递归         |          |
+| 排序         |          |
 | 双指针       |          |
 | 二分法       |          |
 | DP动态规划   |          |
 | 哈希算法     |          |
 | 宽度优先搜索 |          |
 
-**刷体模板**
+## **刷体模板**
 
-- [template][~~两数之和~~](newnotes/leetcode/twoSum.md)
+- [template](newnotes/leetcode/twoSum.md)
 
 ## **刷题阶段**
 
@@ -102,11 +152,11 @@
 
 ### 阶段4：宽度优先搜索
 
-- [X] [岛屿的个数](newnotes/leetcode/岛屿的个数.md)
-- [X] [骑士的最短路径II](newnotes/leetcode/骑士的最短路径II.md)
-- [X] [克隆图](newnotes/leetcode/克隆图.md)
-- [X] [拓扑排序](newnotes/leetcode/拓扑排序.md)
-- [X] [单词接龙](newnotes/leetcode/单词接龙.md)
+- [X] ~~[岛屿的个数](newnotes/leetcode/岛屿的个数.md)~~
+- [X] ~~[骑士的最短路径II](newnotes/leetcode/骑士的最短路径II.md)~~
+- [X] ~~[克隆图](newnotes/leetcode/克隆图.md)~~
+- [X] ~~[拓扑排序](newnotes/leetcode/拓扑排序.md)~~
+- [X] ~~[单词接龙](newnotes/leetcode/单词接龙.md)~~
 - [ ] [课程表](https://www.lintcode.com/problem/615/?_from=ladder&fromId=161)
 - [ ] [课程表II](https://www.lintcode.com/problem/616/?_from=ladder&fromId=161)
 - [ ] [搜索图中节点](https://www.lintcode.com/problem/618/?_from=ladder&fromId=161)
@@ -118,14 +168,24 @@
 - [ ] [邮局的建立 II](https://www.lintcode.com/problem/573/?_from=ladder&fromId=161)
 
 ### 阶段5：分治法
-- [ ] [1二叉搜索树中最接近的值](newnotes/leetcode/二叉搜索树中最接近的值.md)
-- [ ] [2最小子树](newnotes/leetcode/最小子树.md)
-- [ ] [3将二叉树拆成链表](newnotes/leetcode/将二叉树拆成链表.md)
-- [ ] [4BST中第K小的元素](newnotes/leetcode/BST中第K小的元素.md)
-- [ ] [5最近公共祖先](newnotes/leetcode/最近公共祖先.md)
-- [ ] [6最近公共祖先III](newnotes/leetcode/最近公共祖先III.md)
-- [7最近公共祖先II-parent-node](newnotes/leetcode/最近公共祖先II-parent-node.md)
+- [x] ~~[1二叉搜索树中最接近的值](newnotes/leetcode/二叉搜索树中最接近的值.md)~~
+- [x] ~~[2最小子树](newnotes/leetcode/最小子树.md)~~
+- [x] ~~[3将二叉树拆成链表](newnotes/leetcode/将二叉树拆成链表.md)~~
+- [x] ~~[4BST中第K小的元素](newnotes/leetcode/BST中第K小的元素.md)~~
+- [x] ~~[5最近公共祖先](newnotes/leetcode/最近公共祖先.md)~~
+- [x] ~~[6最近公共祖先III](newnotes/leetcode/最近公共祖先III.md)~~
+- [x] ~~[7最近公共祖先II-parent-node](newnotes/leetcode/最近公共祖先II-parent-node.md)~~
 ### 阶段6：深度优先搜索
+- [x] ~~[1电话号码的字母组合](newnotes/leetcode/电话号码的字母组合.md)~~
+- [x] ~~[2字符串的不同排列](newnotes/leetcode/字符串的不同排列.md)~~
+- [x] ~~[3数字组合](newnotes/leetcode/数字组合.md)~~
+- [x] ~~[4k数和（二）](newnotes/leetcode/k数和II.md)~~
+- [x] ~~[5单词搜索 II](newnotes/leetcode/单词搜索II.md)~~
+- [x] ~~[6子集 II](newnotes/leetcode/子集II.md)~~
+- [x] ~~[7子集](newnotes/leetcode/子集.md)~~
+- [x] ~~[8全排列](newnotes/leetcode/全排列.m)~~
+- [x] ~~ [9单词搜索 III](newnotes/leetcode/单词搜索III.m)~~
+- [x] ~~[10单词接龙 II](newnotes/leetcode/单词接龙II.m) ~~
 
 ### 阶段7：高频数据结构
 
@@ -136,8 +196,6 @@
 ### 阶段10：双指针总结
 
 ## 参考
-
-?>
 
 [^1]: 九章2020算法班 `<br>`
 

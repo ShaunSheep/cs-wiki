@@ -2,6 +2,7 @@
 
 首推的几个网址
 1. [需翻墙-android示例库](https://android.googlesource.com/platform/development/+/master/samples)
+2. [可能需翻墙-android示例库](https://developer.android.google.cn/samples?hl=zh_cn)
 
 显而易见，这是一篇正在恢复存档的文章。笔记、总结、学习记录、业内咨询总结，需要花时间一点点找回来。
 
