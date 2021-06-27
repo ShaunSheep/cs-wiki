@@ -117,3 +117,13 @@ public class Solution {
 }
 ```
 
+- 为什么要排序？
+  - 让重复的数字挤在一起，只取第一个重复的数组，参考`index`的作用
+- nums是输入的数组元素
+- index是用于确定我可以从什么位置开始挑数字，如果有重复，只挑出第一个重复的
+  - 有10个2，只取第一个2，判断方式是`&& nums[index] == nums[index - 1] && index - 1 != lastSelectedIndex) {`
+- subsetes是什么，截止当前层为止的子集
+- subset是什么,当前层所持有的子集，这是公共的内存空间，所以需要new List封装一遍，记住当前层所持有的子集，因为当前层结束的时候会remove掉末尾元素
+- 为什么要remove，参考搜索树的dfs搜索过程，
+
+![mark](http://cdn.yangchaofan.cn/BlogGifRes/20210626/fTXTJLJ6KnTT.jpg?imageslim)

@@ -5,6 +5,16 @@
 
 [旅行商问题 · Traveling Salesman Problem](https://www.jiuzhang.com/problem/traveling-salesman-problem/)
 
+只学了两种暴力dfs解法：
+
+- 暴力dfs，跑测试用例大约200ms
+- 暴力dfs+剪枝，比前者速度快一倍，跑测试用例大约200ms
+
+遗留了三种解法没看
+
+- 随机优化2种
+- 动态规划+状态压缩
+
 ## 题目描述
 
 #### 描述
@@ -110,7 +120,9 @@ public class Solution {
 }
 ```
 1. `constructGraph`函数为构建图的通用做法
-   - `Math.min`的用途是取成本最小的路径
+   - `Math.min`的用途是取成本最小的路径，主要目的是去除重复的路线，如果a点到b点有多条路径，选取成本最小的一条
+   - cost如何计算？答：`graph[a][b]`的值是指二维数组(x=a，y=b)的值，也就是a点走到b点的`cost`成本
+   - 如何计算进入下一层cost的成本？答：下一层代表的是当前的成本+去到下一点的成本，即`cost + graph[city][i]`
 2. `dfs`的定义
    1. `city`是指当前所在城市
    2. `n`是指一共有几个城市
@@ -119,15 +131,25 @@ public class Solution {
    5. `graph`是指图
    6. `result`是指全局最优解的结果对象，结果值为`result.minCost`
 3. `Set<Integer> visited`的作用
-   1. 递归出口的条件需要用到
+   1. 递归出口的条件需要用到，判断是否递归访问完毕所有的点，因为题目是要求不重复访问所有点，如果visited的长度等于n，就说明访问完了
 4. 递归的搜索树结构
    1. 第一个点dfs(1,n,visited,0,graph,result)，1代表第一个点，n代表点的总数，visited代表到达第一个点当前总访问的情况，0代表到达当前点的总花费，graph是指总的图，result是指当到达当前点的最优解
 ?>遗留问题
 - graph的结构如何理解？
 - cost如何计算，当前层与下一层的cost有怎样的关系？
--  Math.min(graph[a][b], c)是什么意思？
+
+  ​
+
+## 剪枝dfs法的解题思路
+
+![mark](http://cdn.yangchaofan.cn/BlogGifRes/20210626/l00UufyhfUI3.jpg?imageslim)
+
+- better path存储的是什么？答：截止当前点，成本最低的那一条路径上的所有点
+- 通过判断是否比better path上的点成本更低，来判断是否更新better path的点
+- 比其成本更高，则不进入当前点下一个点的搜索，节省搜索时间
 
 ## 剪枝dfs法代码实现
+
 ```java
 class Result {
     int minCost;
@@ -219,9 +241,22 @@ public class Solution {
 
 ```
 1. `List<Integer> path`的用途?
+
+   1. 存储的是当前层，母亲到达当前城市成本最低的那一条 路径上的点
+
 2. `path.remove(path.size() - 1)`的用途？
+
 3. `hasBetterPath`的用途？
+
+   1. `hasBetterPath==true`表明当前这一层，已经有更优秀的走法了，没必要向下递归极限找后面的点了
+
+      例如，1,2,3,4,5共5个点
+
+      此时已经递归到点4，到达点4有许多种走法，假设有一条边2,1,3，4最好，其他边都比这一条走法成本大，那么大于这条本成本的路线，没有必要递归到点5的走法计算中
+
 4. `hasBetterPath`的定义？
    1. `path_i_1`的用途？
    2. `path_i`的用途？
-   3. if条件的判断`graph[path_i_1][path_i] + graph[path_last][city]` 的含义？老师手绘了一张图，没看懂，需要多看几遍。
+   3. 如何理解if条件的判断条件？
+      1. `graph[path_i_1][path_i] + graph[path_last][city]` 大于`graph[path_i_1][path_last] + graph[path_i][city]`z则表明已经有更好的路径了，返回true即可。
+      2. 因为`i-1->i `加上`last->city`就是当前better path上的按顺序访问的点，。`i-1->last`加上`i->city`是穷举的当前这些点打乱访问顺序排列的走法即模拟的其他路径
