@@ -1,14 +1,19 @@
 # leetcode题解
 
+## 不错的算法数据结构图解网站
+- [美国旧金山大学数据结构算法可视化系统](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
+- [visualgo最有名算法可视化网站](https://visualgo.net/zh/)
+- [Java版数据结构与算法实现-Github上最火的实现40kstar](https://github.com/TheAlgorithms/Java/blob/master/DIRECTORY.md)
 ## 课程计划
 
-- [x] [九章算法2020]()
-- [ ] [vip-数据结构精讲：从原理到实战](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=20#/detail/pc?id=513)
-- [ ] [vip-300分钟搞定数据结构与算法](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=3#/detail/pc?id=34)
+- [X] [九章算法2020]()
+- [X] [邓俊辉算法课2021-7月15](https://www.xuetangx.com/course/THU08091000384/5883586?channel=search_result)
+- [ ] [wp-算法通关40讲](https://time.geekbang.org/course/intro/100019701)
+- [ ] [wp-数据结构与算法之美](https://time.geekbang.org/column/intro/100017301)
+- [ ] [sd-数据结构精讲：从原理到实战](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=20#/detail/pc?id=513)
+- [ ] [sd-300分钟搞定数据结构与算法](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=3#/detail/pc?id=34)
 - [ ] [微信-数重学数据结构与算法](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=185&sid=20-h5Url-0&buyFrom=2&pageId=1pz4#/content)
 - [ ] [手机-数据结构与算法面试宝典](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=685&sid=20-h5Url-0&buyFrom=2&pageId=1pz4#/)
-- [ ] 成都-算法通关40讲
-- [ ] 西安-数据结构与算法之美
 
 ## 刷题步骤
 

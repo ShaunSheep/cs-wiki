@@ -50,6 +50,9 @@
 
 ## 代码实现
 
+- 第一个参数是矩阵
+- 第二个参数是字典
+
 ```java
 public class Solution {
     public static int[] dx = {0, 1, -1, 0};
