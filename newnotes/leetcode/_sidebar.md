@@ -127,14 +127,13 @@
   - [3数字组合](newnotes/leetcode/数字组合.md)
   - [4k数和（二）](newnotes/leetcode/k数和II.md)
   - [5单词搜索 II](newnotes/leetcode/单词搜索II.md)
+  - [单词搜索 III](newnotes/leetcode/单词搜索III.md)
+  - [单词接龙 II](newnotes/leetcode/单词接龙II.md)
   - [子集 II](newnotes/leetcode/子集II.md)
   - [子集](newnotes/leetcode/子集.md)
   - [全排列](newnotes/leetcode/全排列.md)
-  - [单词搜索 III](newnotes/leetcode/单词搜索III.md)
-  - [单词接龙 II](newnotes/leetcode/单词接龙II.md)
-  - [旅行商问题](newnotes/leetcode/TSP中国旅行社问题.md)
   - [字符串置换](newnotes/leetcode/字符串置换.md)
-  - [字符串的不同排列](newnotes/leetcode/字符串的不同排列.md)
+  - [旅行商问题](newnotes/leetcode/TSP中国旅行社问题.md)
 
 
 - [第六阶段深度优先搜索第二期](newnotes/leetcode/DFS.md)
