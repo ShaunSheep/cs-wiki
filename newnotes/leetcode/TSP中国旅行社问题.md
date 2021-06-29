@@ -10,6 +10,11 @@
 - 暴力dfs，跑测试用例大约200ms
 - 暴力dfs+剪枝，比前者速度快一倍，跑测试用例大约200ms
 
+<<<<<<< HEAD
+=======
+搜索树我还是画不出来，暂时有需要的话参考这篇[TSP（Traveling Salesman Problem）](https://www.cnblogs.com/dddyyy/p/10084673.html)
+
+>>>>>>> ad121414531ae704742b31cb26d82508ff7da1d8
 遗留了三种解法没看
 
 - 随机优化2种
@@ -138,7 +143,11 @@ public class Solution {
 - graph的结构如何理解？
 - cost如何计算，当前层与下一层的cost有怎样的关系？
 
+<<<<<<< HEAD
   ​
+=======
+  
+>>>>>>> ad121414531ae704742b31cb26d82508ff7da1d8
 
 ## 剪枝dfs法的解题思路
 

@@ -5,6 +5,8 @@
 
 [子集 II](https://www.lintcode.com/problem/18/)
 
+[ 子集 II - 力扣](https://leetcode-cn.com/problems/subsets-ii/solution/zi-ji-ii-by-leetcode-solution-7inq/)
+
 ## 题目描述
 
 **描述**
@@ -75,7 +77,9 @@ nums = [1,2,2]
 |---|---|---|---|
 | dfs | 下文代码实现  | $O(n∗2n)$ |$O(n∗2n)$|
 
+参考网上的图解，进行去重操作。搜索树采用[两种搜索树画法](newnotes/leetcode/DFS#两种搜索树画法)的画法1
 
+![90.子集II.png](http://cdn.yangchaofan.cn/typora/子集II--画法1)
 
 ## 代码实现
 
@@ -126,4 +130,7 @@ public class Solution {
 - subset是什么,当前层所持有的子集，这是公共的内存空间，所以需要new List封装一遍，记住当前层所持有的子集，因为当前层结束的时候会remove掉末尾元素
 - 为什么要remove，参考搜索树的dfs搜索过程，
 
+<<<<<<< HEAD
 ![mark](http://cdn.yangchaofan.cn/BlogGifRes/20210626/fTXTJLJ6KnTT.jpg?imageslim)
+=======
+>>>>>>> ad121414531ae704742b31cb26d82508ff7da1d8
