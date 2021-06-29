@@ -1,8 +1,10 @@
 # leetcode题解
 
 # 不错的数学知识图解网站
+
 - [看见统计 - 基础概率论 (需科学上网)](https://seeing-theory.brown.edu/basic-probability/cn.html#section1)
 ## 不错的算法数据结构图解网站
+- [算法可视化](https://algorithm-visualizer.org/)
 - [美国旧金山大学数据结构算法可视化系统](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
 - [visualgo不说了最有名的](https://visualgo.net/zh/)
 - [Java版数据结构与算法实现-Github上最火的实现40kstar](https://github.com/TheAlgorithms/Java/blob/master/DIRECTORY.md)
