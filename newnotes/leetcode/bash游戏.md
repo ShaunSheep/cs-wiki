@@ -111,4 +111,12 @@ public class Solution {
     }
 }
 ```
+理解递归函数的定义很重要：
 
+memoSearch返回true，表明这一层先手会赢
+- memoSearc(4,...) return false表明这一层，剩余4个，先手会输
+- memoSearc(1,...) return true表明这一层，剩余1个，先手会赢
+- memoSearc(n,...) return ture表明这一层，剩余n个，先手会赢
+
+`!memoSearch(n -i, memo)` true true 表明，剩余n-i个，先手会赢，上一层（剩余n个）先手会输
+`!memoSearch(n -i, memo)` true false 表明，剩余n-i个，先手会输，上一层（剩余n个）先手会赢

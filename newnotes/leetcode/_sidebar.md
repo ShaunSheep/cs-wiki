@@ -191,6 +191,7 @@
   - [寻找数据流的中位数](https://www.lintcode.com/problem/81/?_from=collection&fromId=161)
 - [第八阶段记忆化搜索](newnotes/leetcode/DFS.md)
   - [巴什博弈](newnotes/leetcode/bash游戏.md)
+  - [数字三角形](newnotes/leetcode/数字三角形.md)
   - [爬楼梯](https://www.lintcode.com/problem/111114/?_from=collection&fromId=161)
   - [1爬楼梯II](https://www.lintcode.com/problem/272/?_from=collection&fromId=161)
   - [2单词拆分III](https://www.lintcode.com/problem/683/?_from=collection&fromId=161)
