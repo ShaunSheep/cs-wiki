@@ -189,7 +189,7 @@
   - [带环链表](https://www.lintcode.com/problem/102/?_from=collection&fromId=161)
   - [最大栈](https://www.lintcode.com/problem/859/?_from=collection&fromId=161)
   - [寻找数据流的中位数](https://www.lintcode.com/problem/81/?_from=collection&fromId=161)
-- [第八阶段记忆化搜索](newnotes/leetcode/DFS.md)
+- [第八阶段记忆化搜索](newnotes/leetcode/记忆化搜索.md)
   - [巴什博弈](newnotes/leetcode/bash游戏.md)
   - [数字三角形](newnotes/leetcode/数字三角形.md)
   - [爬楼梯](newnotes/leetcode/爬楼梯.md)
