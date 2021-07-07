@@ -201,6 +201,7 @@
   - [不同的路径 II](https://www.lintcode.com/problem/115/?_from=collection&fromId=161)
   - [不同的路径](https://www.lintcode.com/problem/114/?_from=collection&fromId=161)
 - [第九阶段动态规划](newnotes/leetcode/dp动态规划.md)
+  - [不同的路径](newnotes/leetcode/不同的路径.md)
   - [1最大整除子集](https://www.lintcode.com/problem/603/?_from=collection&fromId=161)
   - [2骑士的最短路径II](https://www.lintcode.com/problem/630/?_from=collection&fromId=161)
   - [3数字三角形](https://www.lintcode.com/problem/109/?_from=collection&fromId=161)
