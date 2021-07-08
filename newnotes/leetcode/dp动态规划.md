@@ -54,7 +54,18 @@
 </center>
 
 
-
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="http://cdn.yangchaofan.cn/typora/矩阵坐标的两种抽象方式.png" width = "100%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+      图2-两种不同的坐标抽象方式
+      </div>
+</center>
 
 ## 自底向上-数字三角形
 
@@ -251,5 +262,5 @@ public class Solution {
 ?> <br>
 [九章算法2020](https://www.lintcode.com/ladder/161/) <br>
 [【labuladong】动态规划核心套路详解](https://www.bilibili.com/video/BV1XV411Y7oE?from=search&seid=15811028411645469585) <br>
-[动态规划解题套路框架](https://labuladong.gitbook.io/algo/dong-tai-gui-hua-xi-lie/dong-tai-gui-hua-ji-ben-ji-qiao/dong-tai-gui-hua-xiang-jie-jin-jie) <br>
+[动态规划解题套路框架](https://labuladong.gitbook.io/algo/mu-lu-ye-2/mu-lu-ye/dong-tai-gui-hua-xiang-jie-jin-jie) <br>
 [【动态规划专题班】ACM总冠军、清华+斯坦福大神带你入门动态规划算法](https://www.bilibili.com/video/BV1xb411e7ww?from=search&seid=15749315408323378438) <br>
