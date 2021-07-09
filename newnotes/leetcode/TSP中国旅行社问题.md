@@ -10,11 +10,8 @@
 - 暴力dfs，跑测试用例大约200ms
 - 暴力dfs+剪枝，比前者速度快一倍，跑测试用例大约200ms
 
-<<<<<<< HEAD
-=======
 搜索树我还是画不出来，暂时有需要的话参考这篇[TSP（Traveling Salesman Problem）](https://www.cnblogs.com/dddyyy/p/10084673.html)
 
->>>>>>> ad121414531ae704742b31cb26d82508ff7da1d8
 遗留了三种解法没看
 
 - 随机优化2种
@@ -143,11 +140,7 @@ public class Solution {
 - graph的结构如何理解？
 - cost如何计算，当前层与下一层的cost有怎样的关系？
 
-<<<<<<< HEAD
-  ​
-=======
   
->>>>>>> ad121414531ae704742b31cb26d82508ff7da1d8
 
 ## 剪枝dfs法的解题思路
 
@@ -269,3 +262,68 @@ public class Solution {
    3. 如何理解if条件的判断条件？
       1. `graph[path_i_1][path_i] + graph[path_last][city]` 大于`graph[path_i_1][path_last] + graph[path_i][city]`z则表明已经有更好的路径了，返回true即可。
       2. 因为`i-1->i `加上`last->city`就是当前better path上的按顺序访问的点，。`i-1->last`加上`i->city`是穷举的当前这些点打乱访问顺序排列的走法即模拟的其他路径
+
+
+## 状态压缩dp
+
+状压dp dp[i][j]dp[i][j]表示到第ii个点，当前通过的点的状态为jj的最短路。
+
+```java
+class node{
+	int w, x, y;
+	node(int w, int x, int y){
+		this.w = w;
+		this.x = x;
+		this.y = y;
+	}
+}
+public class Solution {
+    /**
+     * @param n: an integer,denote the number of cities
+     * @param roads: a list of three-tuples,denote the road between cities
+     * @return: return the minimum cost to travel all cities
+     */
+	int[][] dp = new int[12][4096];
+	int[][] mp = new int[12][12];
+	Comparator<node> nodecmp = new Comparator<node>() {
+        @Override
+        public int compare(node o1, node o2) {
+            return o1.w - o2.w;
+        }
+    };
+	Queue<node> q = new PriorityQueue<>(nodecmp);
+    public int minCost(int n, int[][] roads) {
+        // Write your code here
+    	for(int i = 0; i < roads.length; ++i){
+            int x = roads[i][0] - 1, y = roads[i][1] - 1;
+    		if(mp[x][y] == 0)mp[x][y] = mp[y][x] = roads[i][2];
+    		else mp[x][y] = mp[y][x] = Math.min(mp[x][y], roads[i][2]);
+        }
+    	for(int i = 0; i < n; ++i) {
+    		for(int j = 0; j < (1 << n); ++j) {
+    			dp[i][j] = 100000000;
+    		}
+    	}
+    	q.add(new node(0,0,1));
+    	dp[0][1] = 0;
+    	while(!q.isEmpty()) {
+    		node tmp = q.poll();
+    		int w = tmp.w, x = tmp.x, y = tmp.y;
+    		if(w > dp[x][y])continue;
+    		for(int i = 0; i < n; ++i)if(mp[x][i] != 0 && (y & (1 << i)) == 0) {
+    			int ny = (y | (1 << i));
+    			if(dp[i][ny] > dp[x][y] + mp[x][i]) {
+    				dp[i][ny] = dp[x][y] + mp[x][i];
+    				q.add(new node(dp[i][ny], i, ny));
+    			}
+    		}
+    	}
+    	int min = 100000000;
+    	for(int i = 0; i < n; ++i) {
+    		min = Math.min(min, dp[i][(1 << n) - 1]);
+    	}
+    	return min;
+    }
+}
+```
+
