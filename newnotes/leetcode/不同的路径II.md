@@ -59,7 +59,7 @@ obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
 
 | <div style="width:70pt">方法</div>  |描述 |<div style="width:70pt">时间复杂度</div> |<div style="width:70pt">空间复杂度</div>|
 |---|---|---|---|
-|  动态规划法 | 坐标型  | $O(1)$|$(1)$|
+|  动态规划法 | 坐标型  | $O(n*m)$ |$O(n*m)$|
 
 此题由[不同的路径](newnotes/leetcode/不同的路径)拓展而来，机器人每一时刻只能选择向下或者向右移动一步，
 
@@ -106,47 +106,42 @@ obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
 
 ```java
 public class Solution {
-    /**
-     * @param obstacleGrid: A list of lists of integers
-     * @return: An integer
-     */
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        //获取网格的长宽
-        int n = obstacleGrid.length,m = obstacleGrid[0].length;
-        if (n == 0 || m == 0) {
+        if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0].length == 0) {
             return 0;
         }
-        int[][] dp = new int[n][m];
-        //对于左边界，第一个障碍物或边界前的所有边界点皆可到达
-        if (obstacleGrid[0][0] == 0) {
-            dp[0][0] = 1;
+        int n = obstacleGrid.length;
+        int m = obstacleGrid[0].length;
+        // dp[i][j]代表(0，0)走到(i,j)的不同路径总数
+        int[][] paths = new int[n][m];
+        // 初始化纵轴
+        for (int i = 0; i < n; i++) {
+            // 遇到障碍，后面的点皆为默认值0
+            if (obstacleGrid[i][0] == 1) {
+                break;
+            } 
+            paths[i][0] = 1;
         }
-        for (int i = 0;i < n;i++) {
-            for (int j = 0;j < m;j++){  
-                if (i==0 && j==0) {  
-                    continue;
-                }
-                //若遇到障碍物，则跳过
+        // 初始化横轴
+        for (int i = 0; i < m; i++) {
+             // 遇到障碍，后面的点皆为默认值0
+            if (obstacleGrid[0][i] == 1) {
+                break; 
+            }    
+            paths[0][i] = 1; 
+        }
+        // 自顶向下
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                // 遇到障碍，跳过障碍点，继续往下一个方向移动
                 if (obstacleGrid[i][j] == 1) {
                     continue;
-                }
-                //对于上边界，第一个障碍物或边界左边的所有边界点皆可到达
-                if (i == 0) {
-                    dp[i][j] = dp[i][j-1];
-                    continue;
-                }
-                //对于左边界，第一个障碍物或边界前的所有边界点皆可到达
-                if (j == 0) {
-                    dp[i][j] = dp[i-1][j];
-                    continue;
-                }
-                //到达当前点的路径数等于能到达此点上面的点和左边点的路径数之和
-                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+                } 
+                paths[i][j] = paths[i - 1][j] + paths[i][j - 1];
             }
         }
-        return dp[n-1][m-1];
+        // 自顶向下，答案是右下角的点
+        return paths[n - 1][m - 1];
     }
 }
-
-
 ```

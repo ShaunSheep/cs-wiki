@@ -3,11 +3,38 @@
 
 ## 动态规划定义
 
-一种算法思想，简称dp，不是具体的算法
+**动态规划**（Dynamic Programming，DP）是运筹学的一个分支，是求解[决策过程](https://baike.baidu.com/item/决策过程/6714639)最优化的过程。
+
+简而言之，动态规划是一种算法设计思想，简称dp，不是具体的算法
+
+在计算机程序设计领域，为了判断一个问题是否适用动态规划思想，需要判断两个**关键属性**。为了学习动态规划思想，也需要关注这两个**关键属性**。
+
+这两个关键属性就是：最优子结构、重叠子问题。其中最优子结构也是分而治之策略的基础。
+
+?>如果一个问题可以通过组合*非重叠*子问题的最优解来解决，则该策略被称为“[分而治之](https://en.wikipedia.org/wiki/Divide_and_conquer_algorithm)”。[[1\]](https://en.wikipedia.org/wiki/Dynamic_programming#cite_note-:0-1) 这就是[归并排序](https://en.wikipedia.org/wiki/Mergesort)和[快速排序](https://en.wikipedia.org/wiki/Quicksort)不属于动态规划问题的原因。
+
+*最优子结构*是指通过组合其子问题的最优解，可以得到给定优化问题的解。这种最优子结构通常通过[递归](https://en.wikipedia.org/wiki/Recursion)来描述。例如，给定一个图*G=(V,E)*，从顶点*u*到顶点*v*的最短路径*p*表现出最佳子结构：在这条最短路径*p*上取任何中间顶点*w*。如果*p*是真正的最短路径，那么它可以被分成子路径*p* *1*从*ù*到*瓦特*和*p* *2*从*w*到*v*使得这些反过来确实是相应顶点之间的最短路径（通过*[算法简介中](https://en.wikipedia.org/wiki/Introduction_to_Algorithms)*描述的简单剪切和粘贴参数）。因此，人们可以轻松地制定以递归方式寻找最短路径的解决方案，这就是[Bellman-Ford 算法](https://en.wikipedia.org/wiki/Bellman–Ford_algorithm)或[Floyd-Warshall 算法](https://en.wikipedia.org/wiki/Floyd–Warshall_algorithm)所做的。
+
+*重叠的*子问题意味着子问题的空间必须很小，即任何解决问题的递归算法都应该一遍又一遍地解决相同的子问题，而不是产生新的子问题。例如，考虑生成斐波那契数列的递归公式：*F* *i* = *F* *i* −1 + *F* *i* −2，基本情况*F* 1 = *F* 2 = 1。然后*F* 43 = *F* 42 + *F* 41和*F* 42 = *F* 41 + *F*40 . 现在*F* 41正在*F* 43和*F* 42的递归子树中求解。尽管子问题的总数实际上很小（只有 43 个），但如果我们采用这样的朴素递归解决方案，我们最终会一遍又一遍地解决相同的问题。动态规划考虑了这个事实，并且每个子问题只解决一次。
+
+这可以通过以下两种方式之一实现：[*[需要引用](https://en.wikipedia.org/wiki/Wikipedia:Citation_needed)*]
+
+- *[自上而下的方法](https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design)*：这是任何问题的递归公式的直接后果。如果任何问题的解决方案都可以使用其子问题的解决方案递归地制定，并且如果其子问题重叠，那么人们可以轻松地将子问题的解决方案[记忆](https://en.wikipedia.org/wiki/Memoize)或存储在表格中。每当我们试图解决一个新的子问题时，我们首先检查表格以查看它是否已经解决。如果已经记录了一个解决方案，我们可以直接使用它，否则我们解决子问题并将其解决方案添加到表中。
+- *[自下而上的方法](https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design)*：一旦我们根据子问题递归地制定问题的解决方案，我们可以尝试以自下而上的方式重新制定问题：首先尝试解决子问题，然后使用它们的解决方案来构建-找到更大的子问题的解决方案。这通常也以表格形式通过使用小子问题的解决方案迭代生成越来越大的子问题的解决方案来完成。例如，如果我们已经知道*F* 41和*F* 40的值，我们可以直接计算*F* 42的值。
 
 ?>动态规划与递归、分治法同属于大问题化小问题的思想，都是解决大问题的有效解题思想。通常表现为大问题的结果依赖于小问题的结果
 
-!>有兴趣可以列出动态规划与贪心、分治、递归的区别。
+!>遗留任务有兴趣列出动态规划与贪心、分治、递归的区别。
+
+## 动态规划的由来
+
+贝尔曼在他的自传*《飓风之眼：自传》中*解释了术语*动态规划*背后的原因：
+
+> 我在[RAND](https://en.wikipedia.org/wiki/RAND_Corporation)度过了（1950 年）秋季[学期](https://en.wikipedia.org/wiki/RAND_Corporation)。我的第一个任务是为多阶段决策过程找到一个名称。一个有趣的问题是，“动态规划这个名字从何而来？” 1950 年代不是数学研究的好年头。我们在华盛顿有一位非常有趣的绅士，名叫[威尔逊](https://en.wikipedia.org/wiki/Charles_Erwin_Wilson). 他是国防部长，其实对“研究”这个词有病态的恐惧和仇恨。我不会轻易使用这个词。我正在使用它。如果人们在他面前使用“研究”这个词，他的脸会泛滥，他会变红，而且他会变得暴力。你可以想象他对数学这个词的感受。兰德公司受雇于空军，而空军基本上以威尔逊为上司。因此，我觉得我必须做点什么来保护威尔逊和空军免受我在兰德公司内部真正做数学的事实的影响。我可以选择什么头衔，什么名字？首先，我对计划、决策和思考感兴趣。但由于种种原因，计划并不是一个好词。因此我决定使用“编程”这个词。我想了解这是动态的，这是多阶段的，这是随时间变化的。我想，让我们用一块石头杀死两只鸟。让我们举一个在经典物理意义上具有绝对精确含义的词，即动态。作为形容词，它还有一个非常有趣的特性，那就是不可能在贬义上使用动态这个词。尝试考虑一些可能会给它带来贬义的组合。不可能。因此，我认为动态规划是个好名字。这是连国会议员都无法反对的事情。所以我用它作为我活动的伞。
+>
+> — 理查德·贝尔曼，*《飓风之眼：自传》*（1984 年，第 159 页）
+
+贝尔曼选择*动态*这个词来捕捉问题随时间变化的方面，因为它听起来令人印象深刻。[[11\]](https://en.wikipedia.org/wiki/Dynamic_programming#cite_note-Eddy-11)*编程*一词指的是使用该方法找到最佳*程序*，就训练或后勤的军事计划而言。这种用法与*[线性规划](https://en.wikipedia.org/wiki/Linear_programming)*和*数学规划*（[数学优化](https://en.wikipedia.org/wiki/Mathematical_optimization)的同义词）短语中的用法相同。[[17\]](https://en.wikipedia.org/wiki/Dynamic_programming#cite_note-17)
 
 ## 实现思路
 
@@ -40,7 +67,8 @@
 
 
 ### DP方程
-- 大问题拆解为对小问题的依赖
+- 又称为状态转移方程
+- 大问题拆解为对小问题的依赖，体现了状态转移的规律，描述了一种正确的穷举思路
 - $f[i][j]=$ 通过规模更小的一些状态,对这些状态求$max、min、sum、or$来进行推导
 
 1. 常见的大问题有哪些？
@@ -361,7 +389,7 @@ for (int j = 0; j < n; j++) dp[0][j] = 1;
 
 ### 为什么要分类讨论动态规划
 
-不同类型的题目，四要素状态、方程、初始化、答案皆略有不同，其中最为不同的是`状态`的定义。
+不同类型的题目，四要素状态、方程、初始化、答案皆略有不同，其中最难想到的是`状态`的定义。
 
 做题的过程中，最为难的一点是识别出题目属于哪一种类型，只有识别出题目类型，就可以轻松找到状态的定义了。接下来就是其他三要素的定义。问题便能迎刃而解。
 
@@ -376,7 +404,13 @@ for (int j = 0; j < n; j++) dp[0][j] = 1;
 
 ![dp相关场景](https://cdn.yangchaofan.cn/typoradp%E7%9B%B8%E5%85%B3%E5%9C%BA%E6%99%AF.svg)
 
+最值还有其他扩展：最长、最短
+
+求方案总数还有其他扩展：不同路径数
+
 ### 按题型分类
+
+?>坐标、前缀、背包的出现频率是最高的三类，其他类型的题目出现频率很低。
 
 ![dp常见题型](https://cdn.yangchaofan.cn/typoradp%E5%B8%B8%E8%A7%81%E9%A2%98%E5%9E%8B.svg)
 
@@ -400,13 +434,19 @@ for (int j = 0; j < n; j++) dp[0][j] = 1;
 
 代表题目：word break,word break III
 
+!>划分的动态与坐标的动态定义不同
 
+划分的动态定义是：前j个加起来的数值
+
+坐标的动态定义是：走到当前i的位置，i代表的数值
 
 ### 前缀之匹配
 
 `dp[i][j]`表示第一个字符串的前i个字符匹配上第二个字符串 的前`j`个字符的最优值/方案数/可行性
 
 代表题:LongestCommonSubsequence,WildcardMatching 
+
+
 
 ### 区间型
 
@@ -420,27 +460,243 @@ for (int j = 0; j < n; j++) dp[0][j] = 1;
 
 代表题:Backpack系列
 
-## 进阶典型题目
+!>不要求挑选的数量，只要求挑选的数之和、某种运算之值
+
+## 坐标型题目
+
+!>做这些题目有什么目的？
+
+1. 训练题目的审题能力，从题目中提取条件的能力，快速定位该题目是不是坐标型题目，是否属于其他类型题目
+2. 训练提炼动态规划四要素的能力
+3. 训练抽象描述矩阵的能力
+4. 训练题目举一反三的能力：不同路径（I，II，III），骑士的最短路径(I，II，III)
 
 ### 不同的路径 II
 
-https://www.lintcode.com/problem/unique-paths-ii https://www.jiuzhang.com/solutions/unique-paths-ii 
+**题目链接**：[不同的路径 II 笔记地址](newnotes/leetcode/不同的路径II.md)
 
-在矩阵中放置一些障碍后，求左上到右下的路径数 
+**题目短述**：在矩阵中放置一些障碍后，求左上到右下的路径数 
 
-坐标型动态规划
+**题目审题：**
+
+1. 题目描述中提到“路径数”，“路径数”属于动态规划的三个场景之一的方案总数；
+2. 提到每一次的走法为正下，正右，“状态之间无依赖，走法具有方向性”，属于动态规划的必要条件
+3. 存在网格、棋盘、矩阵、二维数组的字样描述，属于高频的三个题型之一：坐标型题型
+
+**题目对比**：与[不同的路径](newnotes/leetcode/不同的路径.md)一题不同之处在于，这道题目的坐标系上存在障碍，障碍对四要素的`状态`有影响，对于`方程`即向其他点移动也存在影响
+
+**四要素分析：**
+
+- 状态：`dp[i][j]`代表`(0，0)`走到`(i,j)`的不同路径总数
+
+- 方程：`paths[i][j] = paths[i - 1][j] + paths[i][j - 1];`，增加了障碍点判断 
+
+  ```java
+   if (obstacleGrid[i][j] == 1) {
+      continue;
+   } 
+  ```
+
+  
+
+- 初始化： `paths[i][0] = 1;  paths[0][i] = 1; `,增加了障碍点跳跃
+
+  ```java
+  if (obstacleGrid[0][i] == 1) {
+      break; 
+  } 
+  if (obstacleGrid[i][0] == 1) {
+      break;
+  }  
+  ```
+
+- 答案：`dp[n-1][m-1]`
+
+```java
+public class Solution {
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        if (obstacleGrid == null || obstacleGrid.length == 0 || obstacleGrid[0].length == 0) {
+            return 0;
+        }
+        int n = obstacleGrid.length;
+        int m = obstacleGrid[0].length;
+        // dp[i][j]代表(0，0)走到(i,j)的不同路径总数
+        int[][] paths = new int[n][m];
+        // 初始化纵轴
+        for (int i = 0; i < n; i++) {
+            // 遇到障碍，后面的点皆为默认值0
+            if (obstacleGrid[i][0] == 1) {
+                break;
+            } 
+            paths[i][0] = 1;
+        }
+        // 初始化横轴
+        for (int i = 0; i < m; i++) {
+             // 遇到障碍，后面的点皆为默认值0
+            if (obstacleGrid[0][i] == 1) {
+                break; 
+            }    
+            paths[0][i] = 1; 
+        }
+        // 自顶向下
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                // 遇到障碍，跳过障碍点，继续往下一个方向移动
+                if (obstacleGrid[i][j] == 1) {
+                    continue;
+                } 
+                paths[i][j] = paths[i - 1][j] + paths[i][j - 1];
+            }
+        }
+        // 自顶向下，答案是右下角的点
+        return paths[n - 1][m - 1];
+    }
+}
+```
+
+
 
 ### 骑士的最短路径II
 
+**题目链接：**[骑士的最短路径II 笔记地址](newnotes/leetcode/骑士的最短路径II.md)
+
+**题目短述：**只能向右面的4个方向跳，求左上到右下最短路径 
+
+**题目审题：**
+
+1. 题目提到“最短”，"最短"属于动态规划的三个场景之一最小值问题
+2. 题目提到骑士向4个方向跳，由这种跳法可知，不会循环依赖，因此满足动态规划的必要条件“存在方向，且无循环依赖”
+3. 题目出现了棋盘、网格、矩阵、二维数组的描述，属于动态规划的高频题型之一坐标型题目
+
+**题目对比：** [骑士的最短路线](newnotes/leetcode/骑士的最短路线.md)一题中，骑士可以走向8个点，骑士的最短路径II只可以走4个点。因为这一特性，本题既可以使用bfs，也可以使用动态规划；本题我们先用动态规划做
+
+**坐标抽象过程：**
+
+![骑士最短路径坐标表示02](http://cdn.yangchaofan.cn/typora/骑士最短路径坐标表示02.jpg)
 
 
-https://www.lintcode.com/problem/knight-shortest-path-ii/ 
 
-https://www.jiuzhang.com/problem/knight-shortest-path-ii/ 
+!>注意：本题目骑士只有四种走法即7、3、1、5共4个方向。图示为骑士的所有走法。
 
-只能向右面的4个方向跳，求左上到右下最短路径 
+**四要素分析：**
 
-坐标型动态规划
+**状态：** `dp[i][j]`,从`(0，0)`至`(i，j)`的最短距离
+
+**方程：**迭代四个方向，最小的路径赋值到当前点,`  dp[i][j] = Math.min(dp[i][j],dp[x][y] + 1);`
+
+**初始化：**` dp[i][j] = Integer.MAX_VALUE;`
+
+**答案：**`dp[n-1][m -1]`,终点的位置
+
+写法1和写法2是同一个思想，只是从编码角度节省了迭代四个方向的代码。
+
+写法1：
+
+```java
+public class Solution {
+    private static int[] deltaX = {1,-1,2,-2};
+    private static int[] deltxY = {-2,-2,-1,-1}; 
+    /**
+     * @param grid: a chessboard included 0 and 1
+     * @return: the shortest path
+     */
+    public int shortestPath2(boolean[][] grid) {
+        // write your code here
+        if(grid == null || grid.length == 0){
+            return -1;
+        }
+        int n = grid.length;
+        int m = grid[0].length;
+
+        // 状态dp[i][j]，从0，0至i，j的最短距离
+        int[][] dp = new int[n][m];
+
+        // 初始化所有点为证书最大值
+        for(int i = 0; i < n;i++){
+            for(int j = 0;j < m;j++){
+                dp[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        dp[0][0] = 0;
+
+        // 方程
+        for(int j = 0;j < m;j ++){
+            for(int i = 0;i < n;i++){
+                if(grid[i][j]){
+                    // 等于默认值，整数最大值
+                    continue;
+                }
+                for(int direction = 0; direction <4;direction++){
+                    int x = i + deltaX[direction];
+                    int y = j + deltxY[direction];
+                    if(x < 0 || x >=n || y < 0 ||y >= m){
+                        // 避免整数溢出
+                        continue;
+                    }
+                    if(dp[x][y] == Integer.MAX_VALUE){
+                        // 有障碍物，跳过这一方向，避免整数溢出
+                        continue;
+                    }
+                    // 允许数值+1，已经在上面俩个判断判断了溢出情况
+                    dp[i][j] = Math.min(dp[i][j],dp[x][y] + 1);
+                }
+            }
+        }
+        if(dp[n - 1][m - 1] == Integer.MAX_VALUE){
+            return -1;
+        }
+        return dp[n-1][m -1];
+    }
+}
+```
+
+
+
+写法2：
+
+```java
+public class Solution {
+    /**
+     * @param grid a chessboard included 0 and 1
+     * @return the shortest path
+     */
+    public int shortestPath2(boolean[][] grid) {
+        // Write your code here
+        int n = grid.length;
+        if (n == 0)
+            return -1;
+        int m = grid[0].length;
+        if (m == 0)
+            return -1;
+
+        int[][] f = new int[n][m];
+        for (int i = 0; i < n; ++i)
+            for (int j = 0; j < m; ++j)
+                f[i][j] = Integer.MAX_VALUE;
+
+        f[0][0] = 0;
+        for (int j = 1; j < m; ++j)
+          for (int i = 0; i < n; ++i)
+            if (!grid[i][j]) {
+                if (i >= 1 && j >= 2 && f[i - 1][j - 2] != Integer.MAX_VALUE)
+                    f[i][j] = Math.min(f[i][j], f[i - 1][j - 2] + 1);
+                if (i + 1 < n && j >= 2 && f[i + 1][j - 2] != Integer.MAX_VALUE)
+                    f[i][j] = Math.min(f[i][j], f[i + 1][j - 2] + 1);
+                if (i >= 2 && j >= 1 && f[i - 2][j - 1] != Integer.MAX_VALUE)
+                    f[i][j] = Math.min(f[i][j], f[i - 2][j - 1] + 1);
+                if (i + 2 < n && j >= 1 && f[i + 2][j - 1] != Integer.MAX_VALUE)
+                    f[i][j] = Math.min(f[i][j], f[i + 2][j - 1] + 1);
+            }
+
+        if (f[n - 1][m - 1] == Integer.MAX_VALUE)
+            return -1;
+
+        return f[n - 1][m - 1];
+    }
+}
+```
+
+
 
 ### 跳跃游戏
 
@@ -623,3 +879,9 @@ https://www.lintcode.com/problem/backpack-iii/ https://www.jiuzhang.com/solution
 [【labuladong】动态规划核心套路详解](https://www.bilibili.com/video/BV1XV411Y7oE?from=search&seid=15811028411645469585) <br>
 [动态规划解题套路框架](https://labuladong.gitbook.io/algo/mu-lu-ye-2/mu-lu-ye/dong-tai-gui-hua-xiang-jie-jin-jie) <br>
 [【动态规划专题班】ACM总冠军、清华+斯坦福大神带你入门动态规划算法](https://www.bilibili.com/video/BV1xb411e7ww?from=search&seid=15749315408323378438) <br>
+
+[动态规划_百度百科 <br>](https://baike.baidu.com/item/动态规划/529408?fr=aladdin)
+
+[如何理解动态规划？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/39948290) <br>
+
+[Dynamic_programming 维基百科](https://en.wikipedia.org/wiki/Dynamic_programming#History)

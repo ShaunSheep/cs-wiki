@@ -41,14 +41,14 @@
 (x + 2, y + 1)
 (x - 2, y + 1)
 ```
-## 解题思路
+## bfs解题思路
 | <div style="width:70pt">方法</div>  |描述 |<div style="width:70pt">时间复杂度</div> |<div style="width:70pt">空间复杂度</div>|
 |---|---|---|---|
-|  bsf | [下文代码实现-参考S同学](https://www.jiuzhang.com/problem/knight-shortest-path-ii/) | $O(1)$|$(1)$|
+|  bfs | [下文代码实现-参考S同学](https://www.jiuzhang.com/problem/knight-shortest-path-ii/) | $O(1)$|$(1)$|
 
 
 
-## 代码实现
+## bfs代码实现
 
 ```java
 
@@ -115,6 +115,117 @@ public class Solution {
         }
         
         return true;
+    }
+}
+
+```
+
+## dp解题思路
+| <div style="width:70pt">方法</div>  |描述 |<div style="width:70pt">时间复杂度</div> |<div style="width:70pt">空间复杂度</div>|
+|---|---|---|---|
+|  动态规划 | | $O(1)$|$(1)$|
+## dp代码实现1
+
+```java
+public class Solution {
+    private static int[] deltaX = {1,-1,2,-2};
+    private static int[] deltxY = {-2,-2,-1,-1}; 
+    /**
+     * @param grid: a chessboard included 0 and 1
+     * @return: the shortest path
+     */
+    public int shortestPath2(boolean[][] grid) {
+        // write your code here
+        if(grid == null || grid.length == 0){
+            return -1;
+        }
+        int n = grid.length;
+        int m = grid[0].length;
+
+        // 状态dp[i][j]，从0，0至i，j的最短距离
+        int[][] dp = new int[n][m];
+
+        // 初始化所有点为证书最大值
+        for(int i = 0; i < n;i++){
+            for(int j = 0;j < m;j++){
+                dp[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        dp[0][0] = 0;
+
+        // 方程
+        for(int j = 0;j < m;j ++){
+            for(int i = 0;i < n;i++){
+                if(grid[i][j]){
+                    // 等于默认值，整数最大值
+                    continue;
+                }
+                for(int direction = 0; direction <4;direction++){
+                    int x = i + deltaX[direction];
+                    int y = j + deltxY[direction];
+                    if(x < 0 || x >=n || y < 0 ||y >= m){
+                        // 避免整数溢出
+                        continue;
+                    }
+                    if(dp[x][y] == Integer.MAX_VALUE){
+                        // 避免整数溢出
+                        continue;
+                    }
+                    // 允许数值+1，已经在上面俩个判断判断了溢出情况
+                    dp[i][j] = Math.min(dp[i][j],dp[x][y] + 1);
+                }
+            }
+        }
+        if(dp[n - 1][m - 1] == Integer.MAX_VALUE){
+            return -1;
+        }
+        return dp[n-1][m -1];
+    }
+}
+```
+
+
+
+## dp代码实现2
+
+```java
+public class Solution {
+    /**
+     * @param grid a chessboard included 0 and 1
+     * @return the shortest path
+     */
+    public int shortestPath2(boolean[][] grid) {
+        // Write your code here
+        int n = grid.length;
+        if (n == 0)
+            return -1;
+        int m = grid[0].length;
+        if (m == 0)
+            return -1;
+
+        int[][] f = new int[n][m];
+        for (int i = 0; i < n; ++i)
+            for (int j = 0; j < m; ++j)
+                f[i][j] = Integer.MAX_VALUE;
+
+        f[0][0] = 0;
+        for (int j = 1; j < m; ++j)
+          for (int i = 0; i < n; ++i)
+            if (!grid[i][j]) {
+                if (i >= 1 && j >= 2 && f[i - 1][j - 2] != Integer.MAX_VALUE)
+                    f[i][j] = Math.min(f[i][j], f[i - 1][j - 2] + 1);
+                if (i + 1 < n && j >= 2 && f[i + 1][j - 2] != Integer.MAX_VALUE)
+                    f[i][j] = Math.min(f[i][j], f[i + 1][j - 2] + 1);
+                if (i >= 2 && j >= 1 && f[i - 2][j - 1] != Integer.MAX_VALUE)
+                    f[i][j] = Math.min(f[i][j], f[i - 2][j - 1] + 1);
+                if (i + 2 < n && j >= 1 && f[i + 2][j - 1] != Integer.MAX_VALUE)
+                    f[i][j] = Math.min(f[i][j], f[i + 2][j - 1] + 1);
+            }
+
+        if (f[n - 1][m - 1] == Integer.MAX_VALUE)
+            return -1;
+
+        return f[n - 1][m - 1];
     }
 }
 
