@@ -704,11 +704,122 @@ https://www.lintcode.com/problem/jump-game/
 
 https://www.jiuzhang.com/solutions/jump-game/ 
 
-给一个一维数组，一开始站在下标0 数组中每个值代表可以向右跳跃的最大距离 问是否能跳到最右边的下标
+**题目链接：**[骑士的最短路径II 笔记地址](newnotes/leetcode/dp跳跃游戏.md)
 
-能够用动态规划的几个因素： 1.问可行性 2.一维数组 3.有方向性
+**题目短述：**给一个一维数组，一开始站在下标0 数组中每个值代表可以向右跳跃的最大距离 问是否能跳到最右边的下标
+
+**题目审题：**
+
+1. 题干描述中提到了"一维数组"，属于动态规划高频题型的坐标型
+2. 题干中提到了"向右跳"，由跳法可知不存在循环依赖、走法具有方向性，满足动态规划的两个必要条件
+3. 题干中提到了“能否跳至某个位置”，属于动态规划三个场景之一的“求可行性”
+
+**题目对比：**
+动态规划做法，时间复杂度$O(n^2)$,空间复杂度$O(n)$，n为数组长度。建立的`dp[]`长度为`n`
+
+贪心做法，时间复杂度$O(n)$,n为数组长度。一次遍历。，空间复杂度$O(1)$
+
+**坐标抽象过程：**
+
+输入元素为一维数组：`A = [3,2,1,0,4]`
+
+一维数组的值代表了该位置的点最远可以跳至的距离。如图所示。数组长度为`5`，数组下标可访问的位置有`0，1，2，3，4`；
+
+`A[0] = 2`，代表了位置为`0`的点，最远可以跳下标为`2`（0+2）的位置，对应`A[2]`;
+
+`A[1] = 3` , 代表了位置为`1`的点，最远可以跳至下标为`4`（1+3=4）的位置，对应`A[4]`
+
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="http://cdn.yangchaofan.cn/typora/9a4cf33f7896c29f8e80776492e63b9034a820e3eb0db3e6ad19ffbe857c9b27-1.jpg" width = "30%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+      图7-每个点的跳法如下
+      </div>
+</center>
+
+
+
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://pic.leetcode-cn.com/cf2bbf35f5bcee5a6bd7d15c859e822497734c328932c1628d6fd4c59052d150-6.jpg" width = "30%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+      图8-最远到达的距离
+      </div>
+</center>
+
+
+
+
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="http://cdn.yangchaofan.cn/typora/跳跃游戏dp思考过程.jpg" width = "55%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">
+      图9-坐标抽象过程
+      </div>
+</center>
+
+**四要素分析：**
+
+**状态：**`can[i]`表示能否跳到坐标i，`can[i] = true`表示可以跳转坐标`i`，反之则不能
+**方程：**  如果从`0`可以跳到坐标`i`，则将dp数组的`i`位置的值置为`true`,`  can[i] = true;`
+
+方程问题1：如何判断能否从`0`跳转到坐标`i`？
+
+答：`can[j] && j + A[j] >= i`
+
+方程问题2：方程中`i`和`j`是什么意思？
+
+- `i`代表dp数组的填充位置；按顺序依次填充true或false
+- `j`代表输入的A数组的访问位置，依次从A数组从0至末尾访问是否最远距离包含位置`i`，如果包含，填充dp数组的值为true，反之为false
+
+`can[j]`表示是否可以从0跳到坐标`j`
+`j`是A数组位置下标，`A[j]`的值等同于以0为起点，最远能跳到的距离
+` j + A[j] >= i`是以第一个点为起点，最远能跳到的距离,包含了dp数组的位置
+**初始化：**第一个点是可以到达的，所以初始化为`true`，`can[0] = true`
+**答案：**最后一个点的的布尔值，代表了答案`can[A.length - 1]`
+
+```java
+public class Solution {
+    public boolean canJump(int[] A) {
+        boolean[] can = new boolean[A.length];
+        can[0] = true;
+        
+        for (int i = 1; i < A.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (can[j] && j + A[j] >= i) {
+                    can[i] = true;
+                    break;
+                }
+            }
+        }
+        
+        return can[A.length - 1];
+    }
+}
+```
 
 ## 背包型题目
+
+!>九章视频这一部分讲解的不太好，遂找了一些参考资料看
+资料列表：
+https://www.cnblogs.com/mfrank/p/10533701.html
+
+
 
 通常是二维的状态数组，**前i个**组成**和为j** 
 
@@ -726,11 +837,11 @@ https://www.lintcode.com/problem/backpack
 
 https://www.jiuzhang.com/solutions/backpack
 
- n个物品,m大小的背包，问最多能装多满
+**两种问法:**
 
-给出n个物品及其大小 
+1. n个物品,m大小的背包，问最多能装多满
 
-问是否能挑选出一些物品装满大小为m的背包
+2. 给出n个物品及其大小 ,问是否能挑选出一些物品装满大小为m的背包
 
 **问题：属于动态规划哪一场景**
 
@@ -738,37 +849,38 @@ https://www.jiuzhang.com/solutions/backpack
 
 **问题：01是什么意思**
 
-答：每个物品要么挑0个(不挑)要么挑1个，所以叫01 如果一个物品可以被分割，就不是01背包 如果一个物品可以选多份，就叫多重背包
+答：每个物品要么挑0个(不挑)要么挑1个，所以叫01 。如果一个物品可以被分割，就不是01背包 ；如果一个物品可以选多份，可以取1份，取0份，也可以取3份等，就叫多重背包
 
 **问题：背包的状态如何表示**
 
-`dp[i][j]`表示前i个物品里挑出若干物品组成和为j的大小是否可行 !>背包两个关键点**:前&和**
+`dp[i][j]`表示**前**`i`**个**物品里挑出若干物品**组成和**为`j`的大小是否可行
+
+ !>背包两个关键点**:前&和**
 
 **问题：背包有几种状态定义**
 
 答：两种
 
-第一种表示方法：
+### 第一种表示方法：
 
-`dp[i][j]`表示前i个数里是否能凑出j的和,true/false 
+`dp[i][j]`表示前`i`个数里是否能凑出`j`的和,`dp[i][j]`的值为true/false 
 
-状态：dp[i][j]表示前i个数里挑若干个数是否能组成和为j
+状态：`dp[i][j]`表示前i个数里挑若干个数是否能组成和为j
 
 方程：
 
-- dp[i][j]=dp[i-1][j]ordp[i-1][j-A[i-1]]如果`j>=A[i-1]`
-
-- dp[i][j]=dp[i-1][j]`如果`j<A[i-1]`
-
-- 第i个数的下标是i-1，所以用的是`A[i-1]`而不是`A[i]`
+- 如果`j>=A[i-1]``dp[i][j]=dp[i-1][j] or dp[i-1][j-A[i-1]]`
+- `dp[i][j]`前i个数能否凑合为j的和，需要先判断第i个数
+- `如果`j<A[i-1]`dp[i][j]=dp[i-1][j]`
+- 第`i`个数的下标是`i-1`，所以用的是`A[i-1]`而不是`A[i]`
 
 初始化：
 
-`dp[0][0]=true` 
+`dp[0][0]=true` ,第0个数，和也为0，所以初始化为true
 
-`dp[0][1...m]=false`
+`dp[0][1...m]=false`，因为不存在0个数，凑成和为1...m，所以初始化为`false`
 
-答案：使得`dp[n][v]`,0s<=v<=m为true的最大v
+答案：使得`dp[n][v]`,$0<=v<=m$为true的最大v
 
 
 
@@ -885,3 +997,5 @@ https://www.lintcode.com/problem/backpack-iii/ https://www.jiuzhang.com/solution
 [如何理解动态规划？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/39948290) <br>
 
 [Dynamic_programming 维基百科](https://en.wikipedia.org/wiki/Dynamic_programming#History)
+
+[learning-algorithms-with-leetcode](https://www.yuque.com/liweiwei1419/algo/qf2bw6 )
