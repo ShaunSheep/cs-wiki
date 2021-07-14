@@ -831,7 +831,7 @@ https://www.cnblogs.com/mfrank/p/10533701.html
 
 ### 背包简介
 
-假设有4个物品，它的价值设为V，重量设为W，可以抽象为如下图表示
+假设有4个物品，它的价值设为V，重量设为W，背包容量C，可以抽象为如下图表示
 
 
 <center>
@@ -925,14 +925,14 @@ emmm，等等，为什么叫做`0/1背包`呢？为什么不叫`1/2背包`，`2/
 
 **动态四要素为：**
 
-状态：`dp[i][j]`表示前i个物品，最大价值组合
+**状态：**`dp[i][j]`表示前i个物品，最大价值为j
 
-方程：
+**方程：**
 
 1. `  results[m][n] = results[m-1][n];`
 2. ` results[m][n] = results[m-1][n-ws[m]] + vs[m];`
 
-初始化：
+**初始化：**
 
 ```java
 for (int m = 0; m <= i; m++){
@@ -943,7 +943,49 @@ for (int m = 0; m <= j; m++){
 }
 ```
 
-答案：`results[i][j];`
+**答案：**`results[i][j];`
+
+```java
+public class Solution{
+    int[] vs = {0,2,4,3,7};
+    int[] ws = {0,2,3,5,5};
+    Integer[][] results = new Integer[5][11];
+    
+    @Test
+    public void testKnapsack3() {
+        int result = ks3(4,10);
+        System.out.println(result);
+    }
+
+    private int ks3(int i, int j){
+        // 初始化
+        for (int m = 0; m <= i; m++){
+            results[m][0] = 0;
+        }
+        for (int m = 0; m <= j; m++){
+            results[0][m] = 0;
+        }
+        // 开始填表
+        for (int m = 1; m <= i; m++){
+            for (int n = 1; n <= j; n++){
+                if (n < ws[m]){
+                    // 装不进去
+                    results[m][n] = results[m-1][n];
+                } else {
+                    // 容量足够
+                    if (results[m-1][n] > results[m-1][n-ws[m]] + vs[m]){
+                        // 不装该珠宝，最优价值更大
+                        results[m][n] = results[m-1][n];
+                    } else {
+                        results[m][n] = results[m-1][n-ws[m]] + vs[m];
+                    }
+                }
+            }
+        }
+        return results[i][j];
+    }
+}
+```
 
 
 
@@ -954,6 +996,8 @@ for (int m = 0; m <= j; m++){
 https://www.lintcode.com/problem/backpack 
 
 https://www.jiuzhang.com/solutions/backpack
+
+[dp背包问题笔记]()
 
 **两种问法:**
 
@@ -1002,7 +1046,7 @@ https://www.jiuzhang.com/solutions/backpack
 
 
 
-### **第二种表示方法：**
+### 第二种表示方法：
 
 `dp[i][j]`表示前i个数能否凑出的<=j的最大和是多少
 
@@ -1010,7 +1054,7 @@ https://www.jiuzhang.com/solutions/backpack
 
 方程：
 
-- `dp[i][j]`=max(`dp[i-1][j]`,`dp[i-1][j-A[i-1]]`+`A[i-1]`)如果`j>=A[i-1]`
+- `dp[i][j] =max(dp[i-1][j],dp[i-1][j-A[i-1]]+A[i-1])`如果`j>=A[i-1]`
 
 - `dp[i][j]`=`dp[i-1][j]`如果`j<A[i-1]`
 
@@ -1044,7 +1088,9 @@ https://www.jiuzhang.com/solutions/backpack
 
 ### 背包问题的重复子问题是什么
 
-[1,2,3,4,5,5,6,7,8,9,10000] 比如要凑出和为10010， 前10个数里组合出和为10的方法有5种 ，这5种组合方式就是重复子问题，因为他们凑出来的和都是10 对于后面+10000之后组成10010的影响是一样的 ，我们不关心10是怎么凑的，只关心10能不能被凑出来
+[1,2,3,4,5,5,6,7,8,9,10000] 
+
+比如要凑出和为10010， 前10个数里组合出和为10的方法有5种 ，这5种组合方式就是重复子问题，因为他们凑出来的和都是10 对于后面+10000之后组成10010的影响是一样的 ，我们不关心10是怎么凑的，只关心10能不能被凑出来
 
 ### 背包进阶最小划分
 
@@ -1074,7 +1120,11 @@ https://www.lintcode.com/problem/minimum-partition https://www.jiuzhang.com/solu
 
 ### 背包进阶带价值的01背包
 
-https://www.lintcode.com/problem/backpack-ii/ https://www.jiuzhang.com/solutions/backpack-ii/ 
+https://www.lintcode.com/problem/backpack-ii/ 
+
+https://www.jiuzhang.com/solutions/backpack-ii/ 
+
+[dp背包代价值]()
 
 每个物品有体积A[i]和价值V[i] 
 
