@@ -831,6 +831,8 @@ https://www.cnblogs.com/mfrank/p/10533701.html
 
 ### 背包简介
 
+### 以一个带价值背包场景举例
+
 假设有4个物品，它的价值设为V，重量设为W，背包容量C，可以抽象为如下图表示
 
 
@@ -857,11 +859,15 @@ emmm，等等，为什么叫做`0/1背包`呢？为什么不叫`1/2背包`，`2/
 
 所以究竟选还是不选，这是个问题。
 
+#### 矩阵化抽象思考
+
 **首先**将这个问题**转为二维数组**
 
 ![背包的抽象思考过程](http://cdn.yangchaofan.cn/typora/背包的抽象思考过程.jpg)
 
 表格中，每一个格子代表一个子问题。
+
+#### 问题建模递推公式
 
 **接着**我们为问题建模
 
@@ -889,11 +895,15 @@ emmm，等等，为什么叫做`0/1背包`呢？为什么不叫`1/2背包`，`2/
    1. $j>w_i$,$KS(i,j)=max[KS(i-1,j),KS(i-1,j-w_i)]+v_i $
    2. $j<w_i$,$KS(i,j)=KS(i-1,j)$
 
+#### 初始化矩阵
+
 其次我们将数组**初始化**，初始化其0行0列的最大价值为0:
 
 
 
 ![背包的抽象思考过程-初始化](http://cdn.yangchaofan.cn/typora/背包的抽象思考过程-初始化.jpg)
+
+#### 填充矩阵
 
 最后我们将数组**填充满**：
 
@@ -922,6 +932,8 @@ emmm，等等，为什么叫做`0/1背包`呢？为什么不叫`1/2背包`，`2/
 **填充第四行**：
 
 ![01背包抽象过程4行](http://cdn.yangchaofan.cn/typora/01背包抽象过程4行.jpg)
+
+#### 价值背包的四要素
 
 **动态四要素为：**
 
@@ -997,7 +1009,7 @@ https://www.lintcode.com/problem/backpack
 
 https://www.jiuzhang.com/solutions/backpack
 
-[dp背包问题笔记]()
+[dp背包问题笔记](newnotes/leetcode/dp背包问题)
 
 **两种问法:**
 
@@ -1044,6 +1056,39 @@ https://www.jiuzhang.com/solutions/backpack
 
 答案：使得`dp[n][v]`,$0<=v<=m$为true的最大v
 
+```java
+public class Solution {
+    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A: Given n items with size A[i]
+     * @return: The maximum size
+     */
+    public int backPack(int m, int[] A) {
+        // write your code here
+        int n = A.length;
+        boolean[][] dp = new boolean[n+1][m+1];
+        // 初始化第一个点
+        dp[0][0] = true;
+        for(int i = 1;i <= n ;i++){
+            for(int j = 0;j <= m;j++){
+                if(j >= A[i-1]){
+                    dp[i][j] = dp[i-1][j]||dp[i-1][j-A[i-1]];
+                }else{
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+
+        for(int v = m;v >= 0;v--){
+            if(dp[n][v]){
+                return v;
+            }
+        }
+        return -1;
+    }
+}
+```
+
 
 
 ### 第二种表示方法：
@@ -1064,15 +1109,49 @@ https://www.jiuzhang.com/solutions/backpack
 
 答案：`dp[n][m]`
 
+```java
+public class Solution {
+    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A: Given n items with size A[i]
+     * @return: The maximum size
+     */
+    public int backPack(int m, int[] A) {
+        // write your code here
+        if(A == null || A.length ==0){
+            return 0;
+        }
+
+        int n = A.length;
+        int[][] dp = new int[n+1][m+1];
+
+        for(int i = 1;i <= n ;i++){
+            for(int j = 0; j <= m;j++){
+                if(j >= A[i-1]){
+                    // 背包剩余空间放的下
+                    dp[i][j] = Math.max(dp[i-1][j],dp[i-1][j-A[i-1]]+A[i-1]);
+                }else{
+                    // 背包剩余空间放不下
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[n][m];
+    }
+}
+```
 
 
-### 背包的动态解法与搜索解法
+
+### 背包的动态解法与搜索解法的区别
 
 使用组合型深度优先搜索，时间复杂度$O(n \times 2^n)$
 
 而动态规划的时间复杂度是$O(n*m)$ 
 
 动态规划是否一定更好？
+
+答：两者在极端场景下性能有区别
 
 ### 背包的极端场景
 
@@ -1086,6 +1165,8 @@ https://www.jiuzhang.com/solutions/backpack
 
 [1,1000,1000000],m=1001001 m>>2^n，反而搜索更快
 
+结论：背包容量越小，dp越快；背包容量越大，搜索越快
+
 ### 背包问题的重复子问题是什么
 
 [1,2,3,4,5,5,6,7,8,9,10000] 
@@ -1094,19 +1175,29 @@ https://www.jiuzhang.com/solutions/backpack
 
 ### 背包进阶最小划分
 
-https://www.lintcode.com/problem/minimum-partition https://www.jiuzhang.com/solutions/minimum-partition 
+https://www.lintcode.com/problem/minimum-partition 
+
+https://www.jiuzhang.com/solutions/minimum-partition 
 
 将数组划分为两组，两组分别求和之后的差最小 狗家真题
 
 划分扩展，题目变换：
 
-设整个数组所有数之和为SUM,其中一个较小的数组之和为X 问题变为求|SUM-X-X|=|SUM-2X|的最小值 即求使得X尽可能接近SUM/2的最大值 =数组中挑出若干数尽可能的填满一个大小为SUM/2的背包
+设整个数组所有数之和为SUM,其中一个较小的数组之和为X 问题变为求$|SUM-X-X|=|SUM-2X|$的最小值 即求使得X尽可能接近SUM/2的最大值 =数组中挑出若干数尽可能的填满一个大小为SUM/2的背包
 
 ### 背包进阶外卖优惠卷
 
 你有一张满X元减10元的满减券和每个菜品的价格（整数），每 个菜最多只买一份。问最少买多少钱可以用得上这张外卖券？ 
 
-挑选若干数之和>=X且和最小 =挑选出一些“不加入购物车”的菜品 尽可能填满一个SUM-X的背包
+背包问题：物品组合小于等于X时组合之和的最大值
+
+原问题：物品组合大于等于X时组合之和的最小值
+
+问题Q：挑选若干菜品价格（加入购物车）之和 大于等于 X，且若干数之和最小
+
+问题P：挑选出不加入购物车的菜品价格之和，尽可能填满一个背包容量为SUM-X的背包，菜品之和即小于等于SUM-X时，菜品之和的最大值；
+
+问题Q等价于问题P
 
 ### 背包进阶石头碰撞
 
@@ -1124,7 +1215,7 @@ https://www.lintcode.com/problem/backpack-ii/
 
 https://www.jiuzhang.com/solutions/backpack-ii/ 
 
-[dp背包代价值]()
+[dp背包代价值](newnotes/leetcode/dp背包求最大价值)
 
 每个物品有体积A[i]和价值V[i] 
 
@@ -1142,13 +1233,15 @@ https://www.jiuzhang.com/solutions/backpack-ii/
 
 ### 背包进阶多重背包
 
-https://www.lintcode.com/problem/backpack-iii/ https://www.jiuzhang.com/solutions/backpack-iii/ 
+https://www.lintcode.com/problem/backpack-iii/ 
+
+https://www.jiuzhang.com/solutions/backpack-iii/ 
 
 相比上一个题，这个题的物品可以取任意个数 Example:A=[2,3,5,6],V=[1,5,2,4],m=10
 
 **四要素分析**
 
-状态:dp[i][j]表示前i个物品挑出一些放到j的背包里的最大价值和 
+状态:`dp[i][j]`表示前i个物品挑出一些放到`j`的背包里的最大价值和 
 
 方程:`dp[i][j]=max(dp[i-1][j-count*A[i-1]]+count*V[i-1])` 其中0<=count<=j/A[i-1] 
 
