@@ -225,6 +225,10 @@
   - [最小路径和](newnotes/leetcode/dp最小路径和.md)
   - [石头游戏II](newnotes/leetcode/dp石头游戏.md)
   - [丢鸡蛋](newnotes/leetcode/dp丢鸡蛋.md)
+  - [经典01背包问题](newnotes/leetcode/dp背包问题.md)
+  - [背包求最大价值](newnotes/leetcode/dp背包求最大价值.md)
+  - [多重背包求最大价值](newnotes/leetcode/dp背包多重带价值.md)
+
 - [第九阶段动态规划第二期](newnotes/leetcode/dp动态规划.md)
   - [1两字符串ASCII的最小删除和](https://www.lintcode.com/problem/1076/?_from=collection&fromId=161)
   - [2计算最大值II](newnotes/leetcode/dp计算最大值II.md)
