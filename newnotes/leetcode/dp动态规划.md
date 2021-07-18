@@ -97,6 +97,9 @@
 
 回忆一下[数字三角形](newnotes/leetcode/数字三角形)的矩阵抽象过程
 
+这道题目的动态规划解法-迭代版实现在(如本文所示)[/newnotes/leetcode/dp动态规划#id=四要素入门例题数字三角形]
+这道题目的动态规划解法-递归版实现就在(这里)[/newnotes/leetcode/数字三角形]
+
 <center>
     <img style="border-radius: 0.3125em;
     box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
