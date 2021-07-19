@@ -214,7 +214,7 @@ public class Solution {
 }
 ```
 
-
+- 为什么从n-1开始？答：最大可访问`n-1`的下标，转移方程中要访问`i+1`的下标，从`n-1`开始初始化是为了防止越界
 
 
 
@@ -387,6 +387,22 @@ for (int j = 0; j < n; j++) dp[0][j] = 1;
 方程：一个点的路径之和依赖为其正上方的点、正左侧的点路径之和，因为两个点的路径走法是相互独立的，所以可以相加，`f[i][j] = f[i-1][j] + f[i][j-1];`
 
 答案：右下角的坐标为`(m-1,n-1)`，所以答案就是该点的值`f[m-1][n-1]`
+
+## 四要素进阶例题滚动数组
+
+
+
+### Triangle 数字三角形
+
+[数字三角形](newnotes/leetcode/数字三角形)
+
+### Knight Shortest Path II
+
+### Longest Increasing Subsequence 最长上升子序列
+
+### Longest Continuous Increasing Subsequence II 最长上升连续子序列II
+
+### Largest Divisible Subset 最大整除子集
 
 ## 动态规划的题目分类
 
