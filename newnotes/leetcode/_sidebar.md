@@ -216,7 +216,6 @@
   - [不同的路径](newnotes/leetcode/不同的路径.md)
   - [不同的路径 II](newnotes/leetcode/不同的路径II.md) 
   - [最大整除子集](newnotes/leetcode/最大整除子集.md)
-  - [骑士的最短路线](newnotes/leetcode/骑士的最短路线.md) 
   - [骑士的最短路径II](newnotes/leetcode/骑士的最短路径II.md)
   - [数字三角形](newnotes/leetcode/数字三角形.md)
   - [最长上升子序列](newnotes/leetcode/最长上升子序列.md)

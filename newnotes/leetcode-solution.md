@@ -1,5 +1,7 @@
 # leetcode题解
 
+我的[刷题列表](newnotes/leetcode/)
+
 ## 不错的算法数据结构图解网站
 - [美国旧金山大学数据结构算法可视化系统](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
 - [visualgo最有名算法可视化网站](https://visualgo.net/zh/)
