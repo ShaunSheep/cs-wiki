@@ -221,7 +221,7 @@
   - [房屋染色](newnotes/leetcode/房屋染色.md)
   - [最长上升子序列](newnotes/leetcode/最长上升子序列.md)
   - [最长上升连续子序列 II](newnotes/leetcode/最长上升子序列II.md)
-  - [最长上升连续子序列](newnotes/leetcode/dp最长上升子序列II.md)
+  - [最长上升连续子序列](newnotes/leetcode/dp最长上升连续子序列.md)
   - [俄罗斯套娃信封](newnotes/leetcode/dp俄罗斯套娃信封.md)
   - [最小路径和](newnotes/leetcode/dp最小路径和.md)
   - [石头游戏II](newnotes/leetcode/dp石头游戏.md)
