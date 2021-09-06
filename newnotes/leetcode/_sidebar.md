@@ -213,6 +213,7 @@
   - [单词拆分III](newnotes/leetcode/单词拆分III.md)
   - [5正则表达式匹配](https://www.lintcode.com/problem/154/?_from=collection&fromId=161)
 - [第九阶段动态规划](newnotes/leetcode/dp动态规划.md)
+  - [零钱兑换](newnotes/leetcode/dp零钱兑换.md)
   - [不同的路径](newnotes/leetcode/不同的路径.md)
   - [不同的路径 II](newnotes/leetcode/不同的路径II.md) 
   - [最大整除子集](newnotes/leetcode/最大整除子集.md)

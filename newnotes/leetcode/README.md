@@ -5,10 +5,30 @@
 2. 去哪里学算法？答曰：算法类网站平台、大学MOOC、书籍教材
 3. 如何学算法？答曰：看视频、看教材学基本概念，做题目多总结举一反三。
 
-## 做题之前
+## 做题之前的意识
 做算法题目之前，我们需要具备“评估一个算法性能高低”的能力，同时需要具备写出“大厂规范代码”的能力，最后我们需要了解大厂面试的评价标准。在[第一阶段BugFree](newnotes/leetcode/bugfree.md)一章中会对这三项基础能力做一一解读。
 
+
+
+## 做题之前的图解网站
+
+- [美国旧金山大学数据结构算法可视化系统](https://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
+- [visualgo最有名算法可视化网站](https://visualgo.net/zh/)
+- [Java版数据结构与算法实现-Github上最火的实现40kstar](https://github.com/TheAlgorithms/Java/blob/master/DIRECTORY.md)
+## 做题之前的课程计划
+
+- [X] [九章算法2020班]()
+- [X] [九章动态规划算法班]()
+- [X] [邓俊辉算法课2021](https://www.xuetangx.com/course/THU08091000384/7755489?channel=search_result)
+- [ ] [wp-算法通关40讲](https://time.geekbang.org/course/intro/100019701)
+- [ ] [wp-数据结构与算法之美](https://time.geekbang.org/column/intro/100017301)
+- [ ] [sd-数据结构精讲：从原理到实战](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=20#/detail/pc?id=513)
+- [ ] [sd-300分钟搞定数据结构与算法](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=3#/detail/pc?id=34)
+- [ ] [微信-数重学数据结构与算法](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=185&sid=20-h5Url-0&buyFrom=2&pageId=1pz4#/content)
+- [ ] [手机-数据结构与算法面试宝典](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=685&sid=20-h5Url-0&buyFrom=2&pageId=1pz4#/)
+
 ## 做题的策略
+
 1. 阅读题目，读题+思考5分钟，回忆已有知识、已有题型，记录下思考的障碍点
 
 2. 能否做出来

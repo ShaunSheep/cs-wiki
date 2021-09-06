@@ -8,8 +8,9 @@
 - [Java版数据结构与算法实现-Github上最火的实现40kstar](https://github.com/TheAlgorithms/Java/blob/master/DIRECTORY.md)
 ## 课程计划
 
-- [X] [九章算法2020-7月8日]()
-- [X] [邓俊辉算法课2021-7月15日](https://www.xuetangx.com/course/THU08091000384/5883586?channel=search_result)
+- [X] [九章算法2020班]()
+- [X] [九章动态规划算法班]()
+- [X] [邓俊辉算法课2021](https://www.xuetangx.com/course/THU08091000384/7755489?channel=search_result)
 - [ ] [wp-算法通关40讲](https://time.geekbang.org/course/intro/100019701)
 - [ ] [wp-数据结构与算法之美](https://time.geekbang.org/column/intro/100017301)
 - [ ] [sd-数据结构精讲：从原理到实战](https://kaiwu.lagou.com/course/courseInfo.htm?courseId=20#/detail/pc?id=513)
