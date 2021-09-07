@@ -73,11 +73,14 @@ class Solution {
         final int MAX_VALUE = Integer.MAX_VALUE;
         int[] dp = new int[amount+1];
         dp[0] = 0;
-        // 填充每一个格子的数值
+        // 填充每一个格子的数值，每一个各自是一个状态
+        // 为什么是[1,amount]?答：0默认有数值，amount为答案必须填充数值
         for(int i = 1; i <= amount;i++){
             dp[i] = MAX_VALUE;
             // 遍历所有的面值
             for(int j = 0;j < coins.length;j++){
+                // i代表状态，状态必须大于硬币数值才有意义
+                // i-coins 表示符合转移方程的定义域
                 if(i >= coins[j] && dp[i-coins[j]] != MAX_VALUE){
                     dp[i] = Integer.min(dp[i],dp[i-coins[j]]+1);
                 }
