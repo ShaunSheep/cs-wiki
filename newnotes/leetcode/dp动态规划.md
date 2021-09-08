@@ -832,6 +832,71 @@ public class Solution {
 }
 ```
 
+### 乘积最大连续子数组
+
+**题目链接：**[乘积最大子数组](newnotes/leetcode/dp乘积最大子数组.md)
+
+**题目短述：**给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+
+**题目审题：**
+
+1. 题目关键字**最大**，属于最值型的特点，是dp三大场景之一
+2. 输入条件有一组数据，设为$a_i,i∈(0,1,2,...n)$
+3. 题目的最优解，最后一步是$max(a_k*f[k-1],a_k*g[k-1]),a_k∈(负无穷，正无穷)$，其中a_k是最后一步的数值，可能为正负值两种情况，f[i]是最大乘积，g[i]是最小乘积
+
+**四要素分析：**
+
+**状态：**以$a_i$结尾的连续子序列的**最大乘积**，$g[i]=$以$a_i$结尾的连续子序列的**最小乘积**,
+**方程：** $res=max(a_i*f[i],a_i*g[i],res)$**,res用来打擂台存储乘积最大值
+
+**初始化：** $res=Integer.MINVALUE$
+**答案：**  $max(f[0],f[1],f[2]...f[n-1])$
+
+```java
+/*
+ * @lc app=leetcode.cn id=152 lang=java
+ *
+ * [152] 乘积最大子数组
+ */
+
+// @lc code=start
+class Solution {
+    public int maxProduct(int[] nums) {
+        if(nums.length == 0){
+            return 0;
+        }
+        int[] f = new int[nums.length];
+        int[] g = new int[nums.length];
+        // 打擂台
+        int res = Integer.MIN_VALUE;
+        for(int i = 0; i < nums.length;i++){
+            f[i] = nums[i];
+            if(i > 0){
+                f[i] = Math.max(nums[i]*f[i-1],nums[i]*g[i-1]);
+            }
+            g[i] = nums[i];
+            if(i > 0 ){
+                g[i] = Math.min(nums[i]*f[i-1],nums[i]*g[i-1]);
+            }
+            res = Math.max(f[i],res);
+        }
+        return res;
+    }
+}
+// @lc code=end
+```
+
+## 侯卫东老师dp四个组成部分
+
+| 组成部分 | 硬币兑换                                                     | 不同路径                                                     | 跳跃游戏                                                     | 乘积最大连续子数组                                           |
+| -------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 确定状态 | `dp[i]`表示数值i可由最少多少枚硬币组成                       | `dp[i][j]` ：表示从`（0 ，0）`出发，到`(i, j)` 有`dp[i][j]`条不同的路径 | `can[i]`表示能否跳到坐标i                                    | 子问题，$f[i]$是以$a[i]$结尾最大乘积,$g[i]$是以$a[i]$结尾最小乘积 |
+| 转移方程 | $dp[i] = min(dp[i-coins[0]]+1,dp[i-coins[1]]+1,...,dp[i-coinfs[n-1]]+1)$ | `dp[i][j] = dp[i - 1][j] + dp[i][j - 1]`                     | `can[j] && j + A[j] >= i`<br>j + A[j] >= i`表示从位置j可以调到位置i | $res=max(a_i*f[i],a_i*g[i],res)$，res用来打擂台<br>$f[i]=max(a[i],max(a[i]*f[i-1],a[i]*g[i-1]))$,<br>$g[i]=min(a[i],min(a[i]*f[i-1],a[i]*g[i-1]))$ |
+| 初始化   | `dp[0] = 0`,无法由硬币组成的也表示为最大值，如硬币为2，5，7，则`dp[1]=dp[3]=Integer.MAX_VALUE` | `dp[i][0] = 1;dp[0][j] = 1;`                                 | `can[0]=true`                                                | $f[i]=nums[i],g[i]=nums[i]$,$res=Integer.MINVALUE$           |
+| 计算顺序 | `dp[x]`                                                      | 第一行，第二行...第n-1行,答案`dp[m-`][n-1]`                  | `can[0],can[1],can[2]..can[n-1]`，答案`can[n-1]`             | $f[0],g[0],f[1],g[1]...f[n-1],g[n-1]$，答案是$max(f[0],f[1],f[2]...f[n-1])$ |
+
+
+
 ## 背包型题目
 
 !>九章视频这一部分讲解的不太好，遂找了一些参考资料看
