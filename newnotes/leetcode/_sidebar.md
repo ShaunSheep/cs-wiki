@@ -219,6 +219,7 @@
   - [最大整除子集](newnotes/leetcode/最大整除子集.md)
   - [骑士的最短路径II](newnotes/leetcode/骑士的最短路径II.md)
   - [乘积最大子数组](newnotes/leetcode/dp乘积最大子数组.md)
+  - [跳跃游戏](newnotes/leetcode/dp跳跃游戏.md) 
   - [数字三角形](newnotes/leetcode/数字三角形.md)
   - [房屋染色](newnotes/leetcode/房屋染色.md)
   - [最长上升子序列](newnotes/leetcode/最长上升子序列.md)
