@@ -93,3 +93,47 @@ public class Solution {
     }
 }
 ```
+
+## 二刷代码
+
+二刷注意到只需要连续递增，所以只进行一遍for循环即可
+
+此题的难点在于：
+
+- 状态的定义，`dp[i]`表示以`nums【i】`结尾最长连续子序列
+- 递增的判断，`i>0 && nums[i-1]<nums[i]`
+- 为了得到结果，需要用`res`打擂台，求出每一轮循环的最大值
+- 状态的初始化，`dp`长度位`nums`的长度；`dp[0]=1`，即`nums[i]`自己
+
+```java
+/*
+ * @lc app=leetcode.cn id=674 lang=java
+ *
+ * [674] 最长连续递增序列
+ */
+
+// @lc code=start
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        if(nums.length == 0){
+            return 0;
+        }
+        // 打擂台，最大值
+        int res = 0;
+        // 以nums【i】结尾，最长的递增序列
+        int[] dp = new int[nums.length] ;
+        for(int i = 0;i <nums.length;i++){
+            // 默认最长的长度是以nums[i]结尾，长度位1，即nums[i]自己
+            dp[i] = 1;
+            if(i>0 && nums[i-1] < nums[i]){
+                dp[i] = Math.max(1,dp[i-1]+1);
+            }
+            res = Math.max(res,dp[i]);
+        }
+        // 擂台结果，
+        return res;
+    }
+}
+// @lc code=end
+```
+
