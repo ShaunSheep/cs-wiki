@@ -14,7 +14,5 @@
   - [Java](newnotes/Java.md)
   - [C](newnotes/C.md)
   - [Android](newnotes/android.md)
-  - [Python]()
-  - [JS]()
-  - [Node]()
+
 

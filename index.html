@@ -73,12 +73,14 @@
   </div>
   <!-- City版安装代码已完成 -->
   <script src="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
   <script>
     var num = 0;
     mermaid.initialize({
       startOnLoad: true
     });
     window.$docsify = {
+      loadNavbar:true,
       name: '编程知识库', // 文档标题，显示在侧栏顶部。
       repo: 'https://github.com/ShaunSheep',
       search: 'auto', // 默认值

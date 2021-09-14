@@ -92,3 +92,65 @@ public class Solution {
     }
 }
 ```
+
+
+
+## 二刷代码
+
+状态：`dp[i][j]`从原点至当前点最短路径之和
+
+转移方程:`dp[i][j]=min{dp[i-1][j],dp[i][j-1]}+grid[i][j]`
+
+初始化：`dp[i][j]=grid[i][j]`,`i=0 | j  =0 dp[i][j] = 1`
+
+答案：`dp[m-1][n-1]`
+
+此做法的难点在于：
+
+1. 行数或列数如果为0，返回0
+2. 状态在原点的值为数组的值`     dp[i][j] = grid[i][j];`
+3. 分别判断`i>0`、`j>0`
+
+```java
+// @lc code=start
+class Solution {
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        if (m == 0) {
+            return 0;
+        }
+        int n = grid[0].length;
+        if (n == 0) {
+            return 0;
+        }
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int minFrom = Integer.MAX_VALUE;
+                if (i == 0 && j == 0) {
+                    // 原点的值等于grid[i][j]
+                    dp[i][j] = grid[i][j];
+                    // 原点continue
+                    continue;
+                }
+                // i>0
+                if (i > 0) {
+                    // 打擂台，存储最小路径和
+                    minFrom = Math.min(minFrom, dp[i - 1][j]);
+                }
+                // j>0
+                if (j > 0) {
+                    // 打擂台，存储最小路径和
+                    minFrom = Math.min(minFrom, dp[i][j-1]);
+                }
+                // 到达当前点的最小路径和 = 之前的最短路径+当前点的长度
+                dp[i][j] = minFrom + grid[i][j];
+            }
+        }
+        return dp[m-1][n-1];
+    }
+}
+// @lc code=end
+
+```
+
