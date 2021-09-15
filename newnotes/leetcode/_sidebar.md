@@ -227,6 +227,7 @@
   - [最长上升连续子序列](newnotes/leetcode/dp最长上升连续子序列.md)
   - [俄罗斯套娃信封](newnotes/leetcode/dp俄罗斯套娃信封.md)
   - [最小路径和](newnotes/leetcode/dp最小路径和.md)
+  - [解码方法](newnotes/leetcode/dp解码方法.md)
   - [石头游戏II](newnotes/leetcode/dp石头游戏.md)
   - [丢鸡蛋](newnotes/leetcode/dp丢鸡蛋.md)
   - [经典01背包问题](newnotes/leetcode/dp背包问题.md)
