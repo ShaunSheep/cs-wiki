@@ -63,6 +63,73 @@ backpack size = 12
 |---|---|---|---|
 | 动态规划法 | 下文代码实现  | $O(1)$|$(1)$|
 
+## 侯卫东老师动态规划思路
+
+状态：`dp[i][w] `能否用前i个物品拼出重量w，值是true可以拼出；值是false不可以拼出
+
+转移方程：  $dp[i][w]=dp[i-1][w] || dp[i-1][w-A_(i-1)]$,要么用前i-1个物品拼出重量w，要么用i-1个物品拼出w-A（i-1）,还得加上第i个物品
+
+初始化：原点为true，第一行为false，数组大小为n+1,m+1。n是物品数量，m是物品重量
+
+计算顺序：原点，第一行，第二行...自顶向下计算。答案是打擂台，从底向上最接近W的重量。
+
+![image-20211003232749901](http://cdn.yangchaofan.cn/img/image-20211003232749901.png)
+
+## 侯卫东老师代码解法
+
+
+
+```java
+public class Solution {
+    /**
+     * @param m: An integer m denotes the size of a backpack
+     * @param A: Given n items with size A[i]
+     * @return: The maximum size
+     */
+    public int backPack(int m, int[] A) {
+        // write your code here
+        int n = A.length;
+        if(n == 0 ){
+            return  0;
+        }
+        boolean[][] dp = new boolean[n+1][m+1];
+        // 原点是可以装0的
+        dp[0][0] = true;
+        // 第一行肯定是false，0个物品无法拼出任何容量
+        for(int i = 1 ;i < m;i++){
+            dp[0][i] = false;
+        }
+
+        // 自顶向下拼凑
+        for(int i = 1;i <= n ;i++){
+            for(int j = 0 ; j<= m ;j++){
+                // 前i-1个物品可以拼出重量j
+                dp[i][j] = dp[i-1][j];
+                // 重量j大于
+                if(j>=A[i-1]){
+                    dp[i][j] |= dp[i-1][j- A[i-1]];
+                }
+            }
+        }
+
+        int res = 0;
+        for(int i = m;i>=0; i--){
+            if(dp[n][i] == true){
+                res = i;
+                break;
+            }
+        }
+        return res;
+
+
+    }
+}
+```
+
+
+
+
+
 ## 算法：DP
 
 从已知的题目中，可以总结出以下两点：
