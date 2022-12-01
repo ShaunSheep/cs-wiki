@@ -1,4 +1,4 @@
-# Android内存泄漏案例4讲
+# Android内存泄漏案例5讲
 
 内存泄漏的关注点——对象占据的内存
 
@@ -7,7 +7,7 @@
 - 在页面生命周期销毁后，页面持有、创建过的对象无法被垃圾处理器回收；
 - 在任务（线程、Service、广播）结束后，任务持有、创建过的对象无法被垃圾处理器回收
 
-Android内存问题概述
+Android内存问题l类型概述
 
 内存抖动的表现形式：
 
@@ -25,11 +25,49 @@ Android内存问题概述
 
    
 
+## 内存泄漏的危害
+
+创建8000个实例就内存溢出了
+
+```java
+package org.example.a;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Outer{
+    private int[] data;
+
+    public Outer(int size) {
+        this.data = new int[size];
+    }
+
+    class Innner{
+
+    }
+
+    Innner createInner() {
+        return new Innner();
+    }
+}
+
+public class Demo {
+    public static void main(String[] args) {
+        List<Object> list = new ArrayList<>();
+        int counter = 0;
+        while (true) {
+            list.add(new Outer(100000).createInner());
+            System.out.println(counter++);
+        }
+    }
+}
+```
+
+
+
 ## Android中内存泄漏的判断方式
 
 > 判断一个对象是否无法被回收，最佳的判断方式是定义清楚这个对象预期的生命周期，通常对象是随着页面、任务的生命周期产生和消亡的，Android中可以借此机制判断是否存在泄漏现象：
-
-PS：“是否存在于hporf文件里”，是笔者用于等价替换原文“未被回收”的字样
 
 1. `Activity`:通过查看`Activity#mDestroyed`属性来判断`Activity`是否已经销毁，如果为true，表明该`Activity`已经被标记为销毁状态，此时**hprof文件中若仍然存在此Activity**，则表明这个`Activity`占据的内存处于泄漏状态；
 2. `Fragment`：通过`Fragment#mFragmentManager`属性来判断该`Fragment`是否处于无用状态，如果`mFragmentManager`为空，且**hprof文件中若仍然存在**此`Fragment`，则表明`Fragment`占据的内存处于泄漏状态；
@@ -46,8 +84,8 @@ PS：“是否存在于hporf文件里”，是笔者用于等价替换原文“�
 
 内存泄漏的典型 场景
 
-1. 非静态内部类、匿名内部类持有外部类对象的引用：常见的如`Listener`、`CallBack`、`Handler`、`Dialog`
-2. 非静态的`Handler`，持有`Activity`，`Message`持有`Handler`，`Message`被`MessageQueue`持有，`MessageQueue`持久存在，导致Activity不会被释放
+1. 非静态内部类、非静态匿名内部类持有外部类对象的引用：常见的如`Listener`、`CallBack`、`Handler`、`Dialog`
+2. 非静态的`Handler`，持有`Activity`，`Message`持有`Handler`，`Message`被`MessageQueue`持有，主线程`MessageQueue`持久存在，导致Activity不会被释放
 3. 资源对象未关闭：数据库连接、`Cursor`、`IO`流使用完后未close
 4. 属性动画：未及时使用`cancel`关闭；`Animator`持续存在，导致`Animator`持有的`Activity`、`Fragment`、`View`泄漏（`Animator#updateListener`一般都是匿名内部类，匿名内部类的问题参考场景1）
 5. 逻辑问题：广播监听后未及时解注册；
@@ -331,7 +369,7 @@ mediaPlayerIml.registerListener(playListener);
 
 ![hprof分析-专辑列表页优化后](http://cdn.yangchaofan.cn/typora/hprof分析-专辑列表页优化后.jpg)
 
-根据`Retained Szie`来看，优化前后节省内存，效果减少至原先的 （49937/332 = ）150 分之一。由此可见`Activity`及时回收，极大的节省了内存占用。
+根据`Retained Szie`来看，优化前后节省内存，效果减少至原先的 （49937/332 = ）$1/150$ 。由此可见`Activity`及时回收，极大的节省了内存占用。
 
 
 
@@ -707,7 +745,7 @@ m_handler.sendEmptyMessage(MSG_FLUSH_SEEKBAR);
 
 ![image-20221115152920373](http://cdn.yangchaofan.cn/typora/image-20221115152920373.png)
 
-在`InstanceList`里可以看到`Instance`数量为1，同样的操作次数下，优化前占用内存280824byte；优化后750byte，内存减少至原先的374分之一；由此可见，view的就及时回收，极大的节省了内存占用。
+在`InstanceList`里可以看到`Instance`数量为1，同样的操作次数下，优化前占用内存280824byte；优化后750byte，内存减少至原先的$1/374$；由此可见，view的就及时回收，极大的节省了内存占用。
 
 
 
@@ -718,6 +756,7 @@ m_handler.sendEmptyMessage(MSG_FLUSH_SEEKBAR);
 1. `Runnbale`，`Thread`,线程池
 2. `RxJava`
 3. `HandlerThread`
+4. `Timer`定时器
 
 而这些异步任务很有可能操作内存泄漏，下面我们以`Rxjava`为例，演示此问题，线程、线程池的问题也类似，就不再一一演示了。
 
@@ -815,3 +854,31 @@ m_handler.sendEmptyMessage(MSG_FLUSH_SEEKBAR);
 1. `rxjava`就会存在内存泄漏吗？答：会存在，`consumer`作为`Activity`的内部类，持有当前`Activity`的引用，任务未结束，`Activity`已销毁就会出现内存泄漏
 2. `subscribe`传入的匿名内部类`Consumer`实例不会造成内存泄漏吗？答：只要是匿名内部类，就很有可能内存泄漏，上例子已经证明会产生内存问题。
 3. 异步任务返回时，`Activity`已经处于`onDestroyed`状态，`Observer`持有``Activity`引用，`Activity`内存还能被回收吗？答：无法被回收
+
+
+
+
+
+## 片段式的经验：
+
+1. 静态内部类多次创建，有什么问题吗？-不确定
+2. 静态内部类的实例，需要手动释放吗？-不确定
+3. 仍未找到准确的属性能够判定view是否离开窗口
+4. 静态类要调用一些非静态方法，可能需要扩展更多的弱引用实例通过静态类构造函数传进来
+5. 跨App跳转，很难避免标准模式的`Activity`不被多次创建，但是可以做到Activity退出一次，就释放一次Activity内存，这是基本要求
+6. 静态内部类使用某些实例前，可能需要判断该实例是否为空——在异步场景很容易出现空指针
+7. 尽量不要在`xml`中定义一些`view`，如`TextureView`、`Surfaceview`，他们默认是与`Activity`绑定的，他们的构造函数传入的`context`是`Activity`实例，有可能造成内存泄漏,最好改为代码动态创建这些复杂的view
+8. glide为什么会内存泄漏？
+9. MVP为什么会内存泄漏？参考DeviceSetFragment的泄漏点3例子
+10. `context`被`view`持有，`view`需要及时释放对`context`的引用，释放方式为`view = null`；这样就可以减少指向`context`的引用了；当指向`context`的引用总数为`0`，`context（Activity）`就会被回收了
+11. 有些内存问题需要特定的条件才能出现，如开启关闭摄像头、输入搜索框之后清空搜索框、先进入B页面再回退刷新A页面，monkey无法替代人来操作这些步骤，人为点击还是有意义的
+12. 发现一个泄漏点，解决完之后，再重复测试，才有可能发现下一个泄漏点，只有解决第一个泄漏点，才能发现其他未出现的泄漏点
+13. 优化完之后可能会发现原先无法复现的新问题，优化之后要继续进行大量的重复测试，直到确保不出现泄漏情况才能结束优化工作
+
+
+
+待求证的疑问
+
+1. `System.exit(0)`杀死进程，能释放该进程下的所有内存吗？
+2. 非静态内部类持有当前类的引用，还是非静态内部类的实例持有当前类的引用？
+3. 有必要把所有的内部类都定义成静态吗？参考[java - Java 内部类有坑。。100 % 内存泄露！_个人文章 - SegmentFault 思否](https://segmentfault.com/a/1190000042870246#item-6)、[(8 封私信 / 80 条消息) 为什么Java内部类要设计成静态和非静态两种？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/28197253)
