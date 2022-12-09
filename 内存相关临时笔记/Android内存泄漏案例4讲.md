@@ -92,84 +92,13 @@ public class Demo {
 
 
 
-## Hprof文件
-
-Hprof文件导出
-
-- 通过调用`Debug.dumpHprofData(String filePath)`方法来生成hprof文件
-- 通过执行shell命令`adb shell am dumpheap pid /data/local/tmp/x.hprof`来生成指定进程的hprof文件到目标目录
-
-Heap分区：
-
-1. `app heap`：当前`App`在堆中占据的内存
-2. `image heap`：系统启动镜像，包括启动期间预加载的类
-3. `zygote heap`：所有`App`的父进程，所有`App`共享`zygote`的内存空间，`zygote`预加载了许多资源和代码，供所有`App`读取
-
-Instance View：
-
-1. `depth`：从`gc root`到当前对象的引用链最短深度。被gc root引用到的对象不会被回收。
-
-   个人收获：`depath = 0`，表示不被gc root引用，即会被垃圾回收器回收。
-
-   个人收获：常见`gc root`有5种——局部变量、`Activity threads`、静态变量、`JNI`引用、类加载器
-
-2. `native size`：`native`对象占据的内存大小
-
-3. `shallow size`：对象本身占用的内存，何为对象本身？不包括它引用的其他实例
-
-   个人收获：`shallow size = 类定义+ 父类变量所占空间大小 + 类成员变量所占空间 + [ alignment]`
-
-   类定义：固定为8`Byte`
-
-   父类变量所占空间大小：当前类继承了其他类的成员变量，显然这些变量是占用空间的
-
-   自身变量：当前类的成员变量，如果是基本数据类型，则按基本类型计算；如果是引用数据类型，则固定为4byte，当前类仅持有变量名，
-
-   `alignment`：指位数对齐，目的是让`shallow zie`的值为8的倍数，如某个类A，前三项计算结果未15`byte`，则`shallo size`为了达到8的倍数，会设置一个`alignment`值，凑够16`byte`。
-
-4. `retained size`：Retained Size是指, 当实例A被回收时, 可以同时被回收的实例的Shallow Size之和
-
-
-
-Instance View易混淆概念：
-
-shallow size：
-
-`Shallow Size`是指实例**自身**占用的内存, 可以理解为保存该'数据结构'需要多少内存, 注意**不包括**它引用的其他实例
-
-retained size：
-
-实例A的`Retained Size`是指, 当实例A被回收时, 可以**同时被回收**的实例的Shallow Size之和
-
-![img](https://upload-images.jianshu.io/upload_images/1359811-2a89b5bec9e345ab.png?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp)
-
-图中A, B, C, D四个实例, 为了方便计算, 我们假设所有实例的Shallow Size都是1kb
-
-删除D实例：垃圾回收期会移除D实例;`D实例的Retained Size=Shallow Size=1kb`
-
-删除C实例：垃圾回收器会移除C和D实例;`C实例的Retained Size = C实例的Shallow Size + D实例的Shallow Size = 2kb`
-
-删除B实例：垃圾回收器会移除B实例，因为C仍然被A引用，所以C不会被移除，同理D也不会被移除;`B实例的Retained Size=Shallow Size=1kb`
-
-删除A实例：垃圾回收器会移除B、C、D实例;`A实例的Retained Size=4kb`
+## 
 
 
 
 
 
-怎么从prof文件内分析内存泄漏？
 
-熟能生巧——memory profiler
-
-实时预览功能区：
-
-![hprof分析-profile-memory实时预览功能](http://cdn.yangchaofan.cn/typora/hprof分析-profile-memory实时预览功能.jpg)
-
-
-
-Hprof文件预览区：
-
-![hprof分析-hprof文件预览功能](http://cdn.yangchaofan.cn/typora/hprof分析-hprof文件预览功能.jpg)
 
 
 
@@ -756,7 +685,8 @@ m_handler.sendEmptyMessage(MSG_FLUSH_SEEKBAR);
 1. `Runnbale`，`Thread`,线程池
 2. `RxJava`
 3. `HandlerThread`
-4. `Timer`定时器
+4. `Timer+TimerTask`定时器
+5. `AsyncTask`
 
 而这些异步任务很有可能操作内存泄漏，下面我们以`Rxjava`为例，演示此问题，线程、线程池的问题也类似，就不再一一演示了。
 
@@ -857,23 +787,118 @@ m_handler.sendEmptyMessage(MSG_FLUSH_SEEKBAR);
 
 
 
+## 案例5——单例类
+
+单例与生命周期实例
+
+错误写法：传入Activity/fragment
+
+正确写法：
+
+1、不通过外部传入context，内部直接访问Application的公有方法，得到context
+
+2、在构造函数内`context.getApplicationContext`
+
+
+
+
+
+多线程单例
+
+多线程单例问题
+
+多进程单例问题
+
+究极方案：
+
+静态内部类
+
+
+
+## 案例6——匿名内部类
+
+前面的例子有许多
+
+## 案例7——Handler
+
+Handler的写法本质也是定义了一个内部类，初始化了内部类的实例对象而已
+
+## 案例8——资源未关闭
+
+广播-未注册
+
+EventBus-解注册
+
+Service-尽量停止stopService,忘记stop会内存泄漏
+
+AIDL-远程service解绑
+
+SQL、IO、File及时关闭
+
+
+
+## 案例9——静态变量
+
+
+
+
+
+## 案例10——集合
+
+未及时remove集合内对象或clear集合中的实例
+
+
+
+## 案例11——动画
+
+1、属性动画
+
+2、轮播viewPager
+
+## 案例12——Webview
+
+动态创建而非xml创建——避免持有context
+
+父view移除webview之后，再释放webview，置为空，主动调用onDestroyed，而非webview直接释放
+
+webview的成员属性也要主动释放：如loading、history资源、webview的子view
+
+## 案例13——SurfaceView
+
+置为null是不够的，不会触发view的onDestroyed，必须设置为不可见
+
+
+
+## 案例14——Bitmap
+
+Bitmap-仅置为空不够，native内存需要recycle才能回收
+
+bitmap内存优化可以看笔者的其他文章
+
 
 
 ## 片段式的经验：
 
 1. 静态内部类多次创建，有什么问题吗？-不确定
 2. 静态内部类的实例，需要手动释放吗？-不确定
-3. 仍未找到准确的属性能够判定view是否离开窗口
-4. 静态类要调用一些非静态方法，可能需要扩展更多的弱引用实例通过静态类构造函数传进来
-5. 跨App跳转，很难避免标准模式的`Activity`不被多次创建，但是可以做到Activity退出一次，就释放一次Activity内存，这是基本要求
-6. 静态内部类使用某些实例前，可能需要判断该实例是否为空——在异步场景很容易出现空指针
-7. 尽量不要在`xml`中定义一些`view`，如`TextureView`、`Surfaceview`，他们默认是与`Activity`绑定的，他们的构造函数传入的`context`是`Activity`实例，有可能造成内存泄漏,最好改为代码动态创建这些复杂的view
-8. glide为什么会内存泄漏？
-9. MVP为什么会内存泄漏？参考DeviceSetFragment的泄漏点3例子
-10. `context`被`view`持有，`view`需要及时释放对`context`的引用，释放方式为`view = null`；这样就可以减少指向`context`的引用了；当指向`context`的引用总数为`0`，`context（Activity）`就会被回收了
-11. 有些内存问题需要特定的条件才能出现，如开启关闭摄像头、输入搜索框之后清空搜索框、先进入B页面再回退刷新A页面，monkey无法替代人来操作这些步骤，人为点击还是有意义的
-12. 发现一个泄漏点，解决完之后，再重复测试，才有可能发现下一个泄漏点，只有解决第一个泄漏点，才能发现其他未出现的泄漏点
-13. 优化完之后可能会发现原先无法复现的新问题，优化之后要继续进行大量的重复测试，直到确保不出现泄漏情况才能结束优化工作
+3. 活用onLowMemory、onTrimMemory，做好内存容灾机制
+4. UI不可见的时候，及时释放UI引用的资源，大到Activity、Fragment、Dialog、Window，小到一个自定义View，都要管理好view本身和view引用的对象
+5. Bitmap要用好：裁剪尺寸等比压缩或采样率压缩、压缩质量、复用内存、LRUcache缓存已加载图片
+6. 少用枚举
+7. 多用优化过的数据结构，SparesArray
+8. 使用多进程：独立的任务放到后台进程里，如定位、推送、保活、Webview；注意避免Application多次初始化
+9. 有些对象不是置为null就完事的，如webview、surfaceview、bitmap、属性动画
+10. 仍未找到准确的原生属性能够判定view是否离开窗口
+11. 静态类要调用一些非静态方法，可能需要扩展更多的弱引用实例通过静态类构造函数传进来
+12. 跨App跳转，很难避免标准模式的`Activity`不被多次创建，但是可以做到Activity退出一次，就释放一次Activity内存，这是基本要求
+13. 静态内部类使用某些实例前，可能需要判断该实例是否为空——在异步场景很容易出现空指针
+14. 尽量不要在`xml`中定义一些`view`，如`TextureView`、`Surfaceview`，他们默认是与`Activity`绑定的，他们的构造函数传入的`context`是`Activity`实例，有可能造成内存泄漏,最好改为代码动态创建这些复杂的view
+15. glide为什么会内存泄漏？
+16. MVP为什么会内存泄漏？参考DeviceSetFragment的泄漏点3例子
+17. `context`被`view`持有，`view`需要及时释放对`context`的引用，释放方式为`view = null`；这样就可以减少指向`context`的引用了；当指向`context`的引用总数为`0`，`context（Activity）`就会被回收了
+18. 有些内存问题需要特定的条件才能出现，如开启关闭摄像头、输入搜索框之后清空搜索框、先进入B页面再回退刷新A页面，monkey无法替代人来操作这些步骤，人为点击还是有意义的
+19. 发现一个泄漏点，解决完之后，再重复测试，才有可能发现下一个泄漏点，只有解决第一个泄漏点，才能发现其他未出现的泄漏点
+20. 优化完之后可能会发现原先无法复现的新问题，优化之后要继续进行大量的重复测试，直到确保不出现泄漏情况才能结束优化工作
 
 
 

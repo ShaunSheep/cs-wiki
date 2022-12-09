@@ -1,0 +1,164 @@
+OOM的 原因
+
+1. 已使用size+新申请的size>可分配的size
+2. 可 抛出OOM的区域：Native Heap、JavaHeap
+
+OOM的直接原因
+
+1. 泄漏过多
+2. 抖动幅度太大
+3. 系统资源用尽
+4. App资源用尽
+
+
+
+合适的数据结构
+
+HashMap缺点
+
+ArrayMap、SparseArray替换HashMap
+
+
+
+避免使用枚举
+
+枚举的危害：
+
+1个枚举类增加1`kb`内存开销，让`class`文件`dex`文件变得更大，而使用一个`int`才4`byte`
+
+使用`int`+`@interface`+ `@IntDef/@LongDef/@StringDef`
+
+```java
+    public static final int START = 0;
+    public static final int PASUE = 1;
+    public static final int DESTORY = 2;
+
+    @IntDef({START,PASUE,DESTORY})
+    @interface Job{}
+    public void setTaskState(@Job int state){
+        
+    }
+```
+
+
+
+bitmap
+
+1. 合适的分辨率，drawable目录、mimap目录
+2. 合适的尺寸，等比缩放、采样率缩放
+3. 合适的质量
+4. 合适的文件格式，webP、png、jpge
+5. inbitmap，复用内存，减少内存开辟
+
+
+
+
+
+
+
+图片占据内存的计算方式
+
+1.如何计算图片占用内存
+
+图片占用内存大小的需求值：`Bitmap#getByteCount`
+
+图片实际占用的内存大小：`Bitmap#getAllocationByteCount`
+
+
+
+如何计算图片在内存中的宽度和高度
+
+$bitmap.width = file.width / fileSrc.dpi  * 屏幕密度$
+
+$bitmap.height= file.height/ fileSrc.dpi  * 屏幕密度$
+
+drawable与mdpi目录的dpi值都是1
+
+2.哪些因素影响图片申请的内存
+
+1. 内存中图片的尺寸
+2. 质量
+3. 采样率
+4. 文件位置：assets、mdpi、nodpi、raw
+5. 文件格式：jpg、png
+
+1. 如何优化
+
+由2.5可知，非png图片，没必要使用ARGB_8888，可使用耕地的质量
+
+由2.5可知，需要缩放，则放在mdpi或者其他dpi下，不需要缩放，可以放在raw、assets、nodpi下
+
+
+
+
+
+
+
+
+
+
+
+多进程
+
+- 谨慎创建多进程
+  - 必须创建则尽量及时释放
+  - 少创建，不创建
+- 避免application多次初始化
+
+
+
+大堆
+
+`android:largeHeap = "true"`
+
+获取系统可以分配的大堆具体数值：`ActivityManager#getLargeMemoryClass`
+
+获取系统可以分配的小堆具体数值：`Activitymanager#getMemoryClass`
+
+缺点：
+
+gc速度变慢，因为房间大了，打扫起来慢了
+
+
+
+NDK
+
+Native Heap没有限制
+
+内存大户的核心在Native层，绕开java heap的限制
+
+1. 各类地图App，OpenGl框架产品
+2. Cocos2Dx、Unit3D等框架的游戏产品
+
+
+
+内存优化5R法则
+
+- reduce 缩减：降低每一个对象占用的内存/缩减图片尺寸/降低图片分辨率/模糊所需的质量
+- reuse 复用：inbitmap复用原先开辟的内存空间/池化策略/避免频繁创建对象
+- recycle 回收：在页面生命周期结束后，主动销毁一切页面使用过的对象；Weak弱引用、LRUCache
+- refactor 重构：更好的数据结构/更好的程序架构
+- revalue 重审：谨慎使用Large Heap/多进程/第三方框架
+
+启发——方法论建设——高级工程师的明确能力
+
+
+
+
+
+进阶
+
+Native内存监控
+
+
+
+推荐：
+
+1. Android Performance Pattern
+2. Android Best Performance Practice
+
+
+
+片段的经验
+
+- 多进程会预加载资源，每个独立进程，都会开辟新的内存 ，通常一个新的android进，至少会占用5mb系统内存——
